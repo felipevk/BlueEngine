@@ -7,13 +7,14 @@ public class LifetimeComponentData : BlueEngine.ECS.ComponentData
 {
 	public int Life
 	{ get; set; }
+
+	public override string GetNameId()
+	{
+		return "Lifetime";
+	}
 }
 public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
 {
-	public LifetimeComponentSystem( string name ) : base( name )
-	{
-	}
-
 	public override string GetNameId()
 	{
 		return "Lifetime";

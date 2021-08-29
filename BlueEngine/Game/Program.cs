@@ -17,7 +17,7 @@ class Program
 		{
 			base.RegisterComponents();
 
-			RegisterComponent<LifetimeComponentSystem>( "Lifetime" );
+			RegisterComponent<LifetimeComponentSystem>();
 		}
 
 		protected override void RegisterGameObjects()
@@ -28,9 +28,9 @@ class Program
 			BlueEngine.ECS.GameObject ball1 = RegisterGameObject( "Ball1" );
 			BlueEngine.ECS.GameObject ball2 = RegisterGameObject( "Ball2" );
 
-			player.AddComponent<LifetimeComponentData>( "Lifetime" ).Life = 3000;
-			ball1.AddComponent<LifetimeComponentData>( "Lifetime" ).Life = 40;
-			ball2.AddComponent<LifetimeComponentData>( "Lifetime" ).Life = 5;
+			player.AddComponentData<LifetimeComponentData>().Life = 3000;
+			ball1.AddComponentData<LifetimeComponentData>().Life = 40;
+			ball2.AddComponentData<LifetimeComponentData>().Life = 5;
 		}
 	};
 }

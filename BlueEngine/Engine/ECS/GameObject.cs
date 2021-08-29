@@ -30,8 +30,10 @@ namespace BlueEngine.ECS
 			return ComponentDataRegistry.ContainsKey( componentName );
 		}
 
-		public T GetComponent<T>( String componentName ) where T : ComponentData
+		public T GetComponentData<T>() where T : ComponentData, new()
 		{
+			// TODO find static way to get nameId
+			String componentName = new T().GetNameId();
 			ComponentData retrievedComponentData;
 			if ( ComponentDataRegistry.TryGetValue( componentName, out retrievedComponentData ) )
 			{
@@ -44,13 +46,13 @@ namespace BlueEngine.ECS
 			}
 		}
 
-		public T AddComponent<T>( String componentName ) where T : ComponentData, new()
+		public T AddComponentData<T>() where T : ComponentData, new()
 		{
-			if ( !ComponentDataRegistry.ContainsKey( componentName ) )
+			T newComponentData = new T();
+			if ( !ComponentDataRegistry.ContainsKey( newComponentData.GetNameId() ) )
 			{
-				T newComponentData = new T();
-				ComponentDataRegistry.Add( componentName, newComponentData );
-				Scene.RegisterGameObjectToComponent( componentName, Id, newComponentData );
+				ComponentDataRegistry.Add( newComponentData.GetNameId(), newComponentData );
+				Scene.RegisterGameObjectToComponent( newComponentData.GetNameId(), Id, newComponentData );
 				return newComponentData;
 			}
 			else
@@ -60,9 +62,10 @@ namespace BlueEngine.ECS
 			}
 		}
 
-		public void RemoveComponent<T>( String componentName ) where T : ComponentData
+		public void RemoveComponentData<T>() where T : ComponentData, new()
 		{
-			ComponentData retrievedComponentData;
+			// TODO find static way to get nameId
+			String componentName = new T().GetNameId();
 			if ( ComponentDataRegistry.ContainsKey( componentName ) )
 			{
 				ComponentDataRegistry.Remove( componentName );

@@ -6,11 +6,6 @@ namespace BlueEngine.ECS
 {
 	public abstract class ComponentSystem
 	{
-		public ComponentSystem( String name ) => Name = name;
-
-		public String Name
-		{ get; set; } = "";
-
 		public Dictionary<String, ComponentData> Data
 		{ get; set; } = new Dictionary<string, ComponentData>();
 
@@ -52,6 +47,10 @@ namespace BlueEngine.ECS
 		}
 		protected virtual void Render( String gameObjectId, ComponentData data ) { }
 
+		/// <summary>
+		/// Unique name identifier that needs to match NameId on correspondent ComponentData
+		/// </summary>
+		/// <returns></returns>
 		public abstract String GetNameId();
 	}
 }

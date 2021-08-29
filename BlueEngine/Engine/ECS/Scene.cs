@@ -25,12 +25,12 @@ namespace BlueEngine.ECS
 		{
 		}
 
-		protected void RegisterComponent<T>(String uniqueName) where T : ComponentSystem
+		protected void RegisterComponent<T>() where T : ComponentSystem, new()
 		{
-			if (!m_systems.ContainsKey(uniqueName) )
+			T component = new T();
+			if (!m_systems.ContainsKey( component.GetNameId() ) )
 			{
-				T component = (T)Activator.CreateInstance( typeof( T ), uniqueName ); ;
-				m_systems.Add( uniqueName, component );
+				m_systems.Add( component.GetNameId(), component );
 			}
 			else
 			{
