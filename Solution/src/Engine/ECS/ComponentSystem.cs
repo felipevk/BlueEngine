@@ -6,12 +6,14 @@ namespace BlueEngine.ECS
 {
 	public abstract class ComponentSystem
 	{
+		public Scene scene
+		{ get; set; }
+
 		public Dictionary<String, IComponentData> Data
 		{ get; set; } = new Dictionary<string, IComponentData>();
 
 		public void ForEachData( Action<String, IComponentData> action )
 		{
-			List<String> objectsToRemove = new List<string>();
 			foreach ( KeyValuePair<String, IComponentData> entry in Data )
 			{
 				IComponentData gameObjectData = entry.Value;

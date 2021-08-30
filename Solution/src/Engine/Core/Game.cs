@@ -7,18 +7,21 @@ using BlueEngine.ECS;
 
 namespace BlueEngine
 {
-    public class Game : Microsoft.Xna.Framework.Game
+	public class Game : Microsoft.Xna.Framework.Game
 	{
+		public static Game Instance;
+
 		public Scene CurrentScene
 		{ get; set; }
 
-		private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+		public Renderer GameRenderer
+		{ get; }
 
 		public Game()
         {
-			_graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+			Instance = this;
+			GameRenderer = new Renderer();
+			Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
@@ -31,10 +34,9 @@ namespace BlueEngine
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
-        }
+			GameRenderer.LoadContent();
+			CurrentScene.LoadContent();
+		}
 
         protected override void Update(GameTime gameTime)
         {
@@ -42,16 +44,14 @@ namespace BlueEngine
             base.Update(gameTime);
 
 			CurrentScene.Update();
-			CurrentScene.Render();
 		}
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+			CurrentScene.Render();
+			GameRenderer.Render( gameTime );
 
-            // TODO: Add your drawing code here
-
-            base.Draw(gameTime);
+			base.Draw(gameTime);
         }
     }
 }

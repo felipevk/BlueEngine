@@ -11,16 +11,31 @@ namespace BlueEngine.ECS
 		private Dictionary<String, GameObject> m_gameObjects = new Dictionary<string, GameObject>();
 		private static Dictionary<String, ComponentSystem> m_systems = new Dictionary<string, ComponentSystem>();
 
-		public void Start()
+		public Scene()
 		{
+			// Register Core Components
+			RegisterComponent<PositionComponentSystem>();
+			RegisterComponent<SpriteComponentSystem>();
+
 			RegisterComponents();
 			RegisterGameObjects();
+		}
 
+		public void Start()
+		{
 			foreach ( KeyValuePair<String, ComponentSystem> entry in m_systems )
 			{
 				ComponentSystem system = entry.Value;
 				system.Start();
 			}
+		}
+
+		public virtual void LoadContent()
+		{
+			//TODO find static way to get name id
+			String nameId = new SpriteComponentSystem().GetNameId();
+			SpriteComponentSystem spriteSystem = m_systems[nameId] as SpriteComponentSystem;
+			spriteSystem.LoadTextures();
 		}
 
 		protected virtual void RegisterComponents()
@@ -30,6 +45,7 @@ namespace BlueEngine.ECS
 		protected void RegisterComponent<T>() where T : ComponentSystem, new()
 		{
 			T component = new T();
+			component.scene = this;
 			if ( !m_systems.ContainsKey( component.GetNameId() ) )
 			{
 				m_systems.Add( component.GetNameId(), component );
