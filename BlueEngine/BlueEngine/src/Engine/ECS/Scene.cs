@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BlueEngine.ECS
 {
@@ -28,7 +30,7 @@ namespace BlueEngine.ECS
 		protected void RegisterComponent<T>() where T : ComponentSystem, new()
 		{
 			T component = new T();
-			if (!m_systems.ContainsKey( component.GetNameId() ) )
+			if ( !m_systems.ContainsKey( component.GetNameId() ) )
 			{
 				m_systems.Add( component.GetNameId(), component );
 			}
@@ -45,7 +47,7 @@ namespace BlueEngine.ECS
 		protected GameObject RegisterGameObject( String name )
 		{
 			String id = GameObject.GenerateGameObjectId();
-			GameObject newGameObject = new GameObject(id, name);
+			GameObject newGameObject = new GameObject( id, name );
 			m_gameObjects.Add( newGameObject.Id, newGameObject );
 
 			return newGameObject;
@@ -66,7 +68,7 @@ namespace BlueEngine.ECS
 
 		public static void RegisterGameObjectToComponent( String componentName, String gameObjectId, ComponentData componentData )
 		{
-			m_systems[componentName].Data.Add(gameObjectId, componentData );
+			m_systems[componentName].Data.Add( gameObjectId, componentData );
 		}
 
 		public static void RemoveGameObjectFromComponent( String componentName, String gameObjectId )

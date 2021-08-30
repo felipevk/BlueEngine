@@ -9,13 +9,13 @@ namespace BlueEngine.ECS
 		public Dictionary<String, ComponentData> Data
 		{ get; set; } = new Dictionary<string, ComponentData>();
 
-		public void ForEachData( Action<String, ComponentData> action)
+		public void ForEachData( Action<String, ComponentData> action )
 		{
 			List<String> objectsToRemove = new List<string>();
-			foreach ( KeyValuePair< String, ComponentData > entry in Data )
+			foreach ( KeyValuePair<String, ComponentData> entry in Data )
 			{
 				ComponentData gameObjectData = entry.Value;
-				action( entry.Key, entry.Value);
+				action( entry.Key, entry.Value );
 			}
 		}
 

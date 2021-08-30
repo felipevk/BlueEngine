@@ -1,16 +1,27 @@
 ﻿using System;
 
-using BlueEngine;
-
-class Program
+/// <summary>
+/// The main class.
+/// </summary>
+public static class Program
 {
-	static void Main( string[] args )
+	/// <summary>
+	/// The main entry point for the application.
+	/// </summary>
+	static void Main()
 	{
-		Game game = new Game();
-		game.CurrentScene = new MainScene();
-		game.Run();
+		var factory = new MonoGame.Framework.GameFrameworkViewSource<MyGame>();
+		Windows.ApplicationModel.Core.CoreApplication.Run( factory );
 	}
 
+	public class MyGame : BlueEngine.Game
+	{
+		protected override void Initialize()
+		{
+			CurrentScene = new MainScene();
+			base.Initialize();
+		}
+	}
 	public class MainScene : BlueEngine.ECS.Scene
 	{
 		protected override void RegisterComponents()

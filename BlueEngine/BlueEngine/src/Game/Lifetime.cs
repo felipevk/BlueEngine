@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BlueEngine;
 using BlueEngine.ECS;
 
 public class LifetimeComponentData : BlueEngine.ECS.ComponentData
@@ -25,18 +26,18 @@ public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
 		LifetimeComponentData lifetimeData = data as LifetimeComponentData;
 		if ( lifetimeData.Life == 0 )
 		{
-			Console.WriteLine( "Entity " + gameObjectId + " is dead" );
+			Log.Message( "Entity " + gameObjectId + " is dead" );
 		}
 		else
 		{
 			lifetimeData.Life -= 1;
 			if ( lifetimeData.Life == 0 )
 			{
-				Console.WriteLine( "Entity " + gameObjectId + " is dead" );
+				Log.Message( "Entity " + gameObjectId + " is dead" );
 			}
 			else
 			{
-				Console.WriteLine( "Entity " + gameObjectId + " has " + lifetimeData.Life + " life left" );
+				Log.Message( "Entity " + gameObjectId + " has " + lifetimeData.Life + " life left" );
 			}
 		}
 	}
