@@ -4,12 +4,12 @@ using System.Text;
 using BlueEngine;
 using BlueEngine.ECS;
 
-public class LifetimeComponentData : BlueEngine.ECS.ComponentData
+public class LifetimeComponentData : IComponentData
 {
 	public int Life
 	{ get; set; }
 
-	public override string GetNameId()
+	public string GetNameId()
 	{
 		return "Lifetime";
 	}
@@ -21,24 +21,30 @@ public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
 		return "Lifetime";
 	}
 
-	protected override void Update( String gameObjectId, ComponentData data )
+	protected override void Start( String gameObjectId, IComponentData data )
 	{
 		LifetimeComponentData lifetimeData = data as LifetimeComponentData;
-		if ( lifetimeData.Life == 0 )
+		if ( IsAlive( lifetimeData ) )
 		{
-			Log.Message( "Entity " + gameObjectId + " is dead" );
+			Log.Message( "Entity " + gameObjectId + " is alive" );
 		}
-		else
+	}
+
+	protected override void Update( String gameObjectId, IComponentData data )
+	{
+		LifetimeComponentData lifetimeData = data as LifetimeComponentData;
+		if ( IsAlive( lifetimeData ) )
 		{
 			lifetimeData.Life -= 1;
-			if ( lifetimeData.Life == 0 )
+			if ( !IsAlive( lifetimeData ) )
 			{
 				Log.Message( "Entity " + gameObjectId + " is dead" );
 			}
-			else
-			{
-				Log.Message( "Entity " + gameObjectId + " has " + lifetimeData.Life + " life left" );
-			}
 		}
+	}
+
+	public bool IsAlive( LifetimeComponentData data )
+	{
+		return data.Life >= 0;
 	}
 }

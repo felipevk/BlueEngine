@@ -41,8 +41,6 @@ namespace BlueEngine
             // TODO: Add your update logic here
             base.Update(gameTime);
 
-			//System.Threading.Thread.Sleep( 2000 );
-			Log.Message( "----------New Loop----------" );
 			CurrentScene.Update();
 			CurrentScene.Render();
 		}

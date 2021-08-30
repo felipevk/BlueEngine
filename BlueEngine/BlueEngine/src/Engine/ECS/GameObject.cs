@@ -23,30 +23,30 @@ namespace BlueEngine.ECS
 		{ get; set; }
 
 		public List<String> Children = new List<string>();
-		public Dictionary<String, ComponentData> ComponentDataRegistry = new Dictionary<string, ComponentData>();
+		public Dictionary<String, IComponentData> ComponentDataRegistry = new Dictionary<string, IComponentData>();
 
 		public bool HasComponentData( String componentName )
 		{
 			return ComponentDataRegistry.ContainsKey( componentName );
 		}
 
-		public T GetComponentData<T>() where T : ComponentData, new()
+		public T GetComponentData<T>() where T : IComponentData, new()
 		{
 			// TODO find static way to get nameId
 			String componentName = new T().GetNameId();
-			ComponentData retrievedComponentData;
+			IComponentData retrievedComponentData;
 			if ( ComponentDataRegistry.TryGetValue( componentName, out retrievedComponentData ) )
 			{
-				return retrievedComponentData as T;
+				return ( T )retrievedComponentData;
 			}
 			else
 			{
 				// TODO assert
-				return null;
+				return default( T );
 			}
 		}
 
-		public T AddComponentData<T>() where T : ComponentData, new()
+		public T AddComponentData<T>() where T : IComponentData, new()
 		{
 			T newComponentData = new T();
 			if ( !ComponentDataRegistry.ContainsKey( newComponentData.GetNameId() ) )
@@ -58,11 +58,11 @@ namespace BlueEngine.ECS
 			else
 			{
 				// TODO assert
-				return null;
+				return default( T );
 			}
 		}
 
-		public void RemoveComponentData<T>() where T : ComponentData, new()
+		public void RemoveComponentData<T>() where T : IComponentData, new()
 		{
 			// TODO find static way to get nameId
 			String componentName = new T().GetNameId();

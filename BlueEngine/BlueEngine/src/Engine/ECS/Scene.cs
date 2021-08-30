@@ -66,7 +66,7 @@ namespace BlueEngine.ECS
 			}
 		}
 
-		public static void RegisterGameObjectToComponent( String componentName, String gameObjectId, ComponentData componentData )
+		public static void RegisterGameObjectToComponent( String componentName, String gameObjectId, IComponentData componentData )
 		{
 			m_systems[componentName].Data.Add( gameObjectId, componentData );
 		}
