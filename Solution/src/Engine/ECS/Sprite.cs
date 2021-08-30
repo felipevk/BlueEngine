@@ -45,9 +45,7 @@ namespace BlueEngine.ECS
 			if ( !String.IsNullOrEmpty(spriteData.name) )
 			{
 				// TODO Add require component
-				var gameobject = scene.GetGameObject( gameObjectId );
-				var positionComponent = gameobject.GetComponentData<PositionComponentData>();
-				Vector2 spritePos = positionComponent.position;
+				Vector2 spritePos = scene.GetGameObject( gameObjectId ).GetComponentData<PositionComponentData>().position;
 				Texture2D spriteTexture = Textures[gameObjectId];
 				Game.Instance.GameRenderer.PrepareToDrawSprite( spriteTexture, spritePos, spriteData.color );
 			}
