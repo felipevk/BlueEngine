@@ -26,7 +26,8 @@ public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
 		LifetimeComponentData lifetimeData = data as LifetimeComponentData;
 		if ( IsAlive( lifetimeData ) )
 		{
-			Log.Message( "Entity " + gameObjectId + " is alive" );
+			GameObject gameObj = scene.GetGameObject( gameObjectId );
+			Log.Message( "Entity " + gameObj.Name + " is alive" );
 		}
 	}
 
@@ -36,7 +37,8 @@ public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
 		if ( IsAlive( lifetimeData ) )
 		{
 			lifetimeData.Life -= 1;
-			if ( scene.GetGameObject( gameObjectId ).HasComponentData(new PositionComponentData().GetNameId()) )
+			GameObject gameObj = scene.GetGameObject( gameObjectId );
+			if ( gameObj.HasComponentData(new PositionComponentData().GetNameId()) )
 			{
 				Microsoft.Xna.Framework.Vector2 position = scene.GetGameObject( gameObjectId ).GetComponentData<PositionComponentData>().position;
 				position.X += 10;
@@ -47,7 +49,7 @@ public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
 
 			if ( !IsAlive( lifetimeData ) )
 			{
-				Log.Message( "Entity " + gameObjectId + " is dead" );
+				Log.Message( "Entity " + gameObj.Name + " is dead" );
 			}
 		}
 	}

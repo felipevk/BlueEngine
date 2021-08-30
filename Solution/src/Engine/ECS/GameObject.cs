@@ -9,7 +9,7 @@ namespace BlueEngine.ECS
 		public GameObject( String id, String name )
 		{
 			Id = id;
-			name = Name;
+			Name = name;
 		}
 		public static String GenerateGameObjectId()
 		{
