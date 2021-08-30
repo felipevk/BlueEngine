@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BlueEngine")]
+[assembly: AssemblyTitle("Solution")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BlueEngine")]
-[assembly: AssemblyProduct("BlueEngine")]
+[assembly: AssemblyCompany("Solution")]
+[assembly: AssemblyProduct("Solution")]
 [assembly: AssemblyCopyright("Copyright © 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
