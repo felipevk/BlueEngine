@@ -11,6 +11,11 @@ namespace Blue.ECS
 			Id = id;
 			Name = name;
 		}
+
+		public GameObject( String name ) : this( GenerateGameObjectId(), name )
+		{
+		}
+
 		public static String GenerateGameObjectId()
 		{
 			return System.Guid.NewGuid().ToString();

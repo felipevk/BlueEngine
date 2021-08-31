@@ -64,8 +64,7 @@ namespace Blue.ECS
 
 		protected GameObject RegisterGameObject( String name )
 		{
-			String id = GameObject.GenerateGameObjectId();
-			GameObject newGameObject = new GameObject( id, name );
+			GameObject newGameObject = new GameObject( name );
 			m_gameObjects.Add( newGameObject.Id, newGameObject );
 
 			return newGameObject;
