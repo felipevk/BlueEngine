@@ -1,6 +1,4 @@
-﻿using System;
-
-/// <summary>
+﻿/// <summary>
 /// The main class.
 /// </summary>
 public static class Program
@@ -10,8 +8,7 @@ public static class Program
 	/// </summary>
 	static void Main()
 	{
-		var factory = new MonoGame.Framework.GameFrameworkViewSource<MyGame>();
-		Windows.ApplicationModel.Core.CoreApplication.Run( factory );
+		Blue.Game.Run<MyGame>();
 	}
 
 	public class MyGame : Blue.Game

@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 
 using Blue.ECS;
 
@@ -16,6 +13,13 @@ namespace Blue
 
 		public Renderer GameRenderer
 		{ get; }
+
+		public static void Run<T>()
+			where T : Game, new()
+		{
+			var factory = new MonoGame.Framework.GameFrameworkViewSource<T>();
+			Windows.ApplicationModel.Core.CoreApplication.Run( factory );
+		}
 
 		public Game()
         {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Blue;
 using Blue.ECS;
 
@@ -9,7 +7,7 @@ public class LifetimeComponentData : IComponentData
 	public int Life
 	{ get; set; }
 }
-public class LifetimeComponentSystem : Blue.ECS.ComponentSystem
+public class LifetimeComponentSystem : ComponentSystem
 {
 	protected override void Start( String gameObjectId, IComponentData data )
 	{

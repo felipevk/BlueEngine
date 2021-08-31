@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Blue.ECS
+﻿namespace Blue.ECS
 {
 	public interface IComponentData
 	{
