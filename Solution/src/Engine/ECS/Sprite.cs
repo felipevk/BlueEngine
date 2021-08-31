@@ -16,15 +16,22 @@ namespace Blue.ECS
 
 	public class SpriteComponentSystem : ComponentSystem
 	{
-		public static Dictionary<String, Texture2D> Textures
-		{ get; set; } = new Dictionary<string, Texture2D>();
+		private static Dictionary<String, Texture2D> Textures
+		{ get; set; } = new Dictionary<String, Texture2D>();
+
+		private static Dictionary<String, String> GameObjectTextureMap
+		{ get; set; } = new Dictionary<String, String>();
 
 		public void LoadTextures()
 		{
 			Action<String, IComponentData> loadTexture = ( gameObjectId, data ) =>
 			{
 				SpriteComponentData spriteData = data as SpriteComponentData;
-				Textures.Add( gameObjectId, Game.Instance.Content.Load<Texture2D>( spriteData.name ) );
+				if ( !Textures.ContainsKey(spriteData.name) )
+				{
+					Textures.Add( spriteData.name, Game.Instance.Content.Load<Texture2D>( spriteData.name ) );
+				}
+				GameObjectTextureMap.Add( gameObjectId , spriteData.name );
 			};
 			ForEachData( loadTexture );
 		}
@@ -36,7 +43,7 @@ namespace Blue.ECS
 			{
 				// TODO Add require component
 				Vector2 spritePos = Scene.GetComponentData<PositionComponentData>( gameObjectId ).position;
-				Texture2D spriteTexture = Textures[gameObjectId];
+				Texture2D spriteTexture = Textures[GameObjectTextureMap[gameObjectId]];
 				Game.Instance.GameRenderer.PrepareToDrawSprite( spriteTexture, spritePos, spriteData.color );
 			}
 		}
