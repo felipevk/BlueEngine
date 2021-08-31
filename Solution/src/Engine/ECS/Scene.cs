@@ -10,12 +10,13 @@ namespace BlueEngine.ECS
 	{
 		private Dictionary<String, GameObject> m_gameObjects = new Dictionary<string, GameObject>();
 		private static Dictionary<String, ComponentSystem> m_systems = new Dictionary<string, ComponentSystem>();
+		private static Dictionary<String, String> m_dataSystemMap = new Dictionary<string, String>();
 
 		public Scene()
 		{
 			// Register Core Components
-			RegisterComponent<PositionComponentSystem>();
-			RegisterComponent<SpriteComponentSystem>();
+			RegisterComponent<PositionComponentSystem, PositionComponentData>();
+			RegisterComponent<SpriteComponentSystem, SpriteComponentData>();
 
 			RegisterComponents();
 			RegisterGameObjects();
@@ -32,9 +33,7 @@ namespace BlueEngine.ECS
 
 		public virtual void LoadContent()
 		{
-			//TODO find static way to get name id
-			String nameId = new SpriteComponentSystem().GetNameId();
-			SpriteComponentSystem spriteSystem = m_systems[nameId] as SpriteComponentSystem;
+			SpriteComponentSystem spriteSystem = m_systems[typeof( SpriteComponentSystem ).ToString()] as SpriteComponentSystem;
 			spriteSystem.LoadTextures();
 		}
 
@@ -42,13 +41,16 @@ namespace BlueEngine.ECS
 		{
 		}
 
-		protected void RegisterComponent<T>() where T : ComponentSystem, new()
+		protected void RegisterComponent<T, U>()
+			where T : ComponentSystem, new()
+			where U : IComponentData
 		{
-			T component = new T();
-			component.scene = this;
-			if ( !m_systems.ContainsKey( component.GetNameId() ) )
+			T system = new T();
+			system.scene = this;
+			if ( !m_systems.ContainsKey( typeof( T ).ToString() ) )
 			{
-				m_systems.Add( component.GetNameId(), component );
+				m_systems.Add( typeof( T ).ToString(), system );
+				m_dataSystemMap.Add( typeof( U ).ToString(), typeof( T ).ToString() );
 			}
 			else
 			{
@@ -82,13 +84,43 @@ namespace BlueEngine.ECS
 			}
 		}
 
-		public static void RegisterGameObjectToComponent( String componentName, String gameObjectId, IComponentData componentData )
+		public static T CreateComponentData<T>( String gameObjectId )
+			where T : IComponentData, new()
 		{
-			m_systems[componentName].Data.Add( gameObjectId, componentData );
+			T newComponentData = new T();
+
+			String systemName = m_dataSystemMap[typeof( T ).ToString()];
+			m_systems[systemName].Data.Add( gameObjectId, newComponentData );
+
+			return newComponentData;
 		}
 
-		public static void RemoveGameObjectFromComponent( String componentName, String gameObjectId )
+		public static bool HasComponentData<T>( String gameObjectId )
+			where T : IComponentData
 		{
+			String systemName = m_dataSystemMap[typeof( T ).ToString()];
+			return m_systems[systemName].Data.ContainsKey( gameObjectId );
+		}
+
+		public static T GetComponentData<T>( String gameObjectId )
+			where T : IComponentData
+		{
+			String systemName = m_dataSystemMap[typeof( T ).ToString()];
+			if ( HasComponentData<T>( gameObjectId ) )
+			{
+				return (T)m_systems[systemName].Data[gameObjectId];
+			}
+			else
+			{
+				// TODO assert
+				return default( T );
+			}
+		}
+
+		public static void RemoveComponentData<T>( String gameObjectId )
+			where T : IComponentData
+		{
+			String componentName = m_dataSystemMap[typeof( T ).ToString()];
 			m_systems[componentName].Data.Remove( gameObjectId );
 		}
 

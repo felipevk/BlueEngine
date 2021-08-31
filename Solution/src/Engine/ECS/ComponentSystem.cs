@@ -48,11 +48,5 @@ namespace BlueEngine.ECS
 			ForEachData( rencerAction );
 		}
 		protected virtual void Render( String gameObjectId, IComponentData data ) { }
-
-		/// <summary>
-		/// Unique name identifier that needs to match NameId on correspondent ComponentData
-		/// </summary>
-		/// <returns></returns>
-		public abstract String GetNameId();
 	}
 }

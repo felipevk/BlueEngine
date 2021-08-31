@@ -8,19 +8,9 @@ public class LifetimeComponentData : IComponentData
 {
 	public int Life
 	{ get; set; }
-
-	public string GetNameId()
-	{
-		return "Lifetime";
-	}
 }
 public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
 {
-	public override string GetNameId()
-	{
-		return "Lifetime";
-	}
-
 	protected override void Start( String gameObjectId, IComponentData data )
 	{
 		LifetimeComponentData lifetimeData = data as LifetimeComponentData;
@@ -38,13 +28,13 @@ public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
 		{
 			lifetimeData.Life -= 1;
 			GameObject gameObj = scene.GetGameObject( gameObjectId );
-			if ( gameObj.HasComponentData(new PositionComponentData().GetNameId()) )
+			if ( Scene.HasComponentData<PositionComponentData>( gameObjectId ) )
 			{
-				Microsoft.Xna.Framework.Vector2 position = scene.GetGameObject( gameObjectId ).GetComponentData<PositionComponentData>().position;
+				Microsoft.Xna.Framework.Vector2 position = Scene.GetComponentData<PositionComponentData>( gameObjectId ).position;
 				position.X += 10;
 				position.Y += 10;
-			
-				scene.GetGameObject( gameObjectId ).GetComponentData<PositionComponentData>().position = position;
+
+				Scene.GetComponentData<PositionComponentData>( gameObjectId ).position = position;
 			}
 
 			if ( !IsAlive( lifetimeData ) )
