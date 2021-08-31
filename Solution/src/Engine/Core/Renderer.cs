@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace BlueEngine
+namespace Blue
 {
 	public class Renderer
 	{

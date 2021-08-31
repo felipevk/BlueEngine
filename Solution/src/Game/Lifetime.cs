@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BlueEngine;
-using BlueEngine.ECS;
+using Blue;
+using Blue.ECS;
 
 public class LifetimeComponentData : IComponentData
 {
 	public int Life
 	{ get; set; }
 }
-public class LifetimeComponentSystem : BlueEngine.ECS.ComponentSystem
+public class LifetimeComponentSystem : Blue.ECS.ComponentSystem
 {
 	protected override void Start( String gameObjectId, IComponentData data )
 	{

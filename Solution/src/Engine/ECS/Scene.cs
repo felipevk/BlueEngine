@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlueEngine.ECS
+namespace Blue.ECS
 {
 	public class Scene
 	{

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace BlueEngine.ECS
+namespace Blue.ECS
 {
 	class PositionComponentData : IComponentData
 	{

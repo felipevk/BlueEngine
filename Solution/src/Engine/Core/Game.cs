@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-using BlueEngine.ECS;
+using Blue.ECS;
 
-namespace BlueEngine
+namespace Blue
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{

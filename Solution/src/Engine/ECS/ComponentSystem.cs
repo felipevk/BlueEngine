@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlueEngine.ECS
+namespace Blue.ECS
 {
 	public abstract class ComponentSystem
 	{
