@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using Microsoft.Xna.Framework;
+
+/// <summary>
 /// The main class.
 /// </summary>
 public static class Program
@@ -45,15 +47,15 @@ public static class Program
 			CreateComponentData<LifetimeComponentData>( ball1.Id ).Life = 40;
 			CreateComponentData<LifetimeComponentData>( ball2.Id ).Life = 5;
 
-			CreateComponentData<Blue.ECS.PositionComponentData>( ball1.Id ).position = new Microsoft.Xna.Framework.Vector2( 0, 0 );
+			CreateComponentData<Blue.ECS.PositionComponentData>( ball1.Id ).position = new Vector2( 0, 0 );
 			Blue.ECS.SpriteComponentData spriteBall1 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball1.Id );
 			spriteBall1.name = "ball";
 			spriteBall1.drawDebug = true;
 
-			CreateComponentData<Blue.ECS.PositionComponentData>( ball2.Id ).position = new Microsoft.Xna.Framework.Vector2( 200, 100 );
+			CreateComponentData<Blue.ECS.PositionComponentData>( ball2.Id ).position = new Vector2( 200, 100 );
 			Blue.ECS.SpriteComponentData spriteBall2 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball2.Id );
 			spriteBall2.name = "ball";
-			spriteBall2.color = Microsoft.Xna.Framework.Color.Yellow;
+			spriteBall2.color = Color.Yellow;
 		}
 	};
 }

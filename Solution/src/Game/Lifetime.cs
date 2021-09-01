@@ -1,6 +1,8 @@
 ﻿using System;
+
 using Blue;
 using Blue.ECS;
+using Microsoft.Xna.Framework;
 
 public class LifetimeComponentData : ComponentData
 {
@@ -40,7 +42,7 @@ public class LifetimeComponentSystem : ComponentSystem
 				Log.Message( "Entity " + gameObj.Name + " is dead" );
 				if ( Scene.HasComponentData<SpriteComponentData>( gameObjectId ) )
 				{
-					Scene.GetComponentData<SpriteComponentData>( gameObjectId ).drawDebugColor = Microsoft.Xna.Framework.Color.Yellow;
+					Scene.GetComponentData<SpriteComponentData>( gameObjectId ).drawDebugColor = Color.Yellow;
 				}
 			}
 		}
