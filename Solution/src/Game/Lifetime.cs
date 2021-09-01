@@ -30,7 +30,7 @@ public class LifetimeComponentSystem : ComponentSystem
 			GameObject gameObj = scene.GetGameObject( gameObjectId );
 			if ( Scene.HasComponentData<PositionComponentData>( gameObjectId ) )
 			{
-				Microsoft.Xna.Framework.Vector2 position = Scene.GetComponentData<PositionComponentData>( gameObjectId ).position;
+				Vector2 position = Scene.GetComponentData<PositionComponentData>( gameObjectId ).position;
 				position.X += 10;
 				position.Y += 10;
 
