@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Blue.ECS
 {
-	public abstract class ComponentSystem
+	public abstract class ComponentSystem : ManagedSystem
 	{
 		public Scene scene
 		{ get; set; }
@@ -20,28 +20,28 @@ namespace Blue.ECS
 			}
 		}
 
-		public void Start()
+		public override void Start()
 		{
 			Action<String, IComponentData> startAction = ( gameObjectId, data ) => Start( gameObjectId, data );
 			ForEachData( startAction );
 		}
 		protected virtual void Start( String gameObjectId, IComponentData data ) { }
 
-		public void Clean()
+		public override void Clean()
 		{
 			Action<String, IComponentData> cleanAction = ( gameObjectId, data ) => Clean( gameObjectId, data );
 			ForEachData( cleanAction );
 		}
 		protected virtual void Clean( String gameObjectId, IComponentData data ) { }
 
-		public void Update()
+		public override void Update()
 		{
 			Action<String, IComponentData> updateAction = ( gameObjectId, data ) => Update( gameObjectId, data );
 			ForEachData( updateAction );
 		}
 		protected virtual void Update( String gameObjectId, IComponentData data ) { }
 
-		public void Render()
+		public override void Render()
 		{
 			Action<String, IComponentData> rencerAction = ( gameObjectId, data ) => Render( gameObjectId, data );
 			ForEachData( rencerAction );

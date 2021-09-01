@@ -95,6 +95,7 @@
     <Compile Include="src\Engine\ECS\ComponentData.cs" />
     <Compile Include="src\Engine\ECS\ComponentSystem.cs" />
     <Compile Include="src\Engine\ECS\GameObject.cs" />
+    <Compile Include="src\Engine\ECS\ManagedSystem.cs" />
     <Compile Include="src\Engine\ECS\Position.cs" />
     <Compile Include="src\Engine\ECS\Scene.cs" />
     <Compile Include="src\Engine\ECS\Sprite.cs" />

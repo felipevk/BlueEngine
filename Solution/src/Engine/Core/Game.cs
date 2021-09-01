@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 using Blue.ECS;
 
@@ -14,6 +16,8 @@ namespace Blue
 		public Renderer GameRenderer
 		{ get; }
 
+		private static Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
+
 		public static void Run<T>()
 			where T : Game, new()
 		{
@@ -27,12 +31,18 @@ namespace Blue
 			GameRenderer = new Renderer();
 			Content.RootDirectory = "Content";
             IsMouseVisible = true;
-        }
+			RegisterManagedSystems();
+		}
 
         protected override void Initialize()
         {
 			Log.Message( "BlueEngine Game Started!" );
 			base.Initialize();
+			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
+			{
+				ManagedSystem system = entry.Value;
+				system.Start();
+			}
 			CurrentScene.Start();
 		}
 
@@ -42,19 +52,67 @@ namespace Blue
 			CurrentScene.LoadContent();
 		}
 
-        protected override void Update(GameTime gameTime)
+		protected virtual void RegisterManagedSystems()
+		{
+		}
+
+		protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
+			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
+			{
+				ManagedSystem system = entry.Value;
+				system.Start();
+			}
 			CurrentScene.Update();
 		}
 
         protected override void Draw(GameTime gameTime)
         {
+			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
+			{
+				ManagedSystem system = entry.Value;
+				system.Start();
+			}
 			CurrentScene.Render();
 			GameRenderer.Render( gameTime );
 
 			base.Draw(gameTime);
         }
-    }
+
+		protected void RegisterManagedSystem<T>()
+			where T : ManagedSystem, new()
+		{
+			if ( !m_managedSystems.ContainsKey( typeof( T ).ToString() ) )
+			{
+				T system = new T();
+				m_managedSystems.Add( typeof( T ).ToString(), system );
+			}
+			else
+			{
+				// TODO Assert
+			}
+		}
+
+		public static bool HasManagedSystem<T>()
+			where T : ManagedSystem
+		{
+			return m_managedSystems.ContainsKey( typeof( T ).ToString() );
+		}
+
+		public static T GetManagedSystem<T>()
+			where T : ManagedSystem
+		{
+			if ( HasManagedSystem<T>() )
+			{
+				return (T)m_managedSystems[typeof( T ).ToString()];
+			}
+			else
+			{
+				// TODO assert
+				return default( T );
+			}
+		}
+	}
 }

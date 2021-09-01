@@ -6,7 +6,8 @@ namespace Blue.ECS
 	public class Scene
 	{
 		private Dictionary<String, GameObject> m_gameObjects = new Dictionary<string, GameObject>();
-		private static Dictionary<String, ComponentSystem> m_systems = new Dictionary<string, ComponentSystem>();
+		private static Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
+		private static Dictionary<String, ComponentSystem> m_componentSystems = new Dictionary<string, ComponentSystem>();
 		private static Dictionary<String, String> m_dataSystemMap = new Dictionary<string, String>();
 
 		public Scene()
@@ -15,13 +16,19 @@ namespace Blue.ECS
 			RegisterComponent<PositionComponentSystem, PositionComponentData>();
 			RegisterComponent<SpriteComponentSystem, SpriteComponentData>();
 
+			RegisterManagedSystems();
 			RegisterComponents();
 			RegisterGameObjects();
 		}
 
 		public void Start()
 		{
-			foreach ( KeyValuePair<String, ComponentSystem> entry in m_systems )
+			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
+			{
+				ManagedSystem system = entry.Value;
+				system.Start();
+			}
+			foreach ( KeyValuePair<String, ComponentSystem> entry in m_componentSystems )
 			{
 				ComponentSystem system = entry.Value;
 				system.Start();
@@ -30,12 +37,50 @@ namespace Blue.ECS
 
 		public virtual void LoadContent()
 		{
-			SpriteComponentSystem spriteSystem = m_systems[typeof( SpriteComponentSystem ).ToString()] as SpriteComponentSystem;
+			SpriteComponentSystem spriteSystem = m_componentSystems[typeof( SpriteComponentSystem ).ToString()] as SpriteComponentSystem;
 			spriteSystem.LoadTextures();
+		}
+
+		protected virtual void RegisterManagedSystems()
+		{
 		}
 
 		protected virtual void RegisterComponents()
 		{
+		}
+
+		protected void RegisterManagedSystem<T>()
+			where T : ManagedSystem, new()
+		{
+			if ( !m_managedSystems.ContainsKey( typeof( T ).ToString() ) )
+			{
+				T system = new T();
+				m_managedSystems.Add( typeof( T ).ToString(), system );
+			}
+			else
+			{
+				// TODO Assert
+			}
+		}
+
+		public static bool HasManagedSystem<T>()
+			where T : ManagedSystem
+		{
+			return m_managedSystems.ContainsKey( typeof( T ).ToString() );
+		}
+
+		public static T GetManagedSystem<T>()
+			where T : ManagedSystem
+		{
+			if ( HasManagedSystem<T>() )
+			{
+				return (T)m_managedSystems[typeof( T ).ToString()];
+			}
+			else
+			{
+				// TODO assert
+				return default( T );
+			}
 		}
 
 		protected void RegisterComponent<T, U>()
@@ -44,9 +89,9 @@ namespace Blue.ECS
 		{
 			T system = new T();
 			system.scene = this;
-			if ( !m_systems.ContainsKey( typeof( T ).ToString() ) )
+			if ( !m_componentSystems.ContainsKey( typeof( T ).ToString() ) )
 			{
-				m_systems.Add( typeof( T ).ToString(), system );
+				m_componentSystems.Add( typeof( T ).ToString(), system );
 				m_dataSystemMap.Add( typeof( U ).ToString(), typeof( T ).ToString() );
 			}
 			else
@@ -86,7 +131,7 @@ namespace Blue.ECS
 			T newComponentData = new T();
 
 			String systemName = m_dataSystemMap[typeof( T ).ToString()];
-			m_systems[systemName].Data.Add( gameObjectId, newComponentData );
+			m_componentSystems[systemName].Data.Add( gameObjectId, newComponentData );
 
 			return newComponentData;
 		}
@@ -95,7 +140,7 @@ namespace Blue.ECS
 			where T : IComponentData
 		{
 			String systemName = m_dataSystemMap[typeof( T ).ToString()];
-			return m_systems[systemName].Data.ContainsKey( gameObjectId );
+			return m_componentSystems[systemName].Data.ContainsKey( gameObjectId );
 		}
 
 		public static T GetComponentData<T>( String gameObjectId )
@@ -104,7 +149,7 @@ namespace Blue.ECS
 			String systemName = m_dataSystemMap[typeof( T ).ToString()];
 			if ( HasComponentData<T>( gameObjectId ) )
 			{
-				return (T)m_systems[systemName].Data[gameObjectId];
+				return (T)m_componentSystems[systemName].Data[gameObjectId];
 			}
 			else
 			{
@@ -117,12 +162,17 @@ namespace Blue.ECS
 			where T : IComponentData
 		{
 			String componentName = m_dataSystemMap[typeof( T ).ToString()];
-			m_systems[componentName].Data.Remove( gameObjectId );
+			m_componentSystems[componentName].Data.Remove( gameObjectId );
 		}
 
 		public void Update()
 		{
-			foreach ( KeyValuePair<String, ComponentSystem> entry in m_systems )
+			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
+			{
+				ManagedSystem system = entry.Value;
+				system.Update();
+			}
+			foreach ( KeyValuePair<String, ComponentSystem> entry in m_componentSystems )
 			{
 				ComponentSystem system = entry.Value;
 				system.Update();
@@ -131,7 +181,12 @@ namespace Blue.ECS
 
 		public void Render()
 		{
-			foreach ( KeyValuePair<String, ComponentSystem> entry in m_systems )
+			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
+			{
+				ManagedSystem system = entry.Value;
+				system.Render();
+			}
+			foreach ( KeyValuePair<String, ComponentSystem> entry in m_componentSystems )
 			{
 				ComponentSystem system = entry.Value;
 				system.Render();
