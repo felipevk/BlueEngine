@@ -85,7 +85,7 @@ namespace Blue.ECS
 
 		protected void RegisterComponent<T, U>()
 			where T : ComponentSystem, new()
-			where U : IComponentData
+			where U : ComponentData
 		{
 			T system = new T();
 			system.scene = this;
@@ -126,7 +126,7 @@ namespace Blue.ECS
 		}
 
 		public static T CreateComponentData<T>( String gameObjectId )
-			where T : IComponentData, new()
+			where T : ComponentData, new()
 		{
 			T newComponentData = new T();
 
@@ -137,14 +137,14 @@ namespace Blue.ECS
 		}
 
 		public static bool HasComponentData<T>( String gameObjectId )
-			where T : IComponentData
+			where T : ComponentData
 		{
 			String systemName = m_dataSystemMap[typeof( T ).ToString()];
 			return m_componentSystems[systemName].Data.ContainsKey( gameObjectId );
 		}
 
 		public static T GetComponentData<T>( String gameObjectId )
-			where T : IComponentData
+			where T : ComponentData
 		{
 			String systemName = m_dataSystemMap[typeof( T ).ToString()];
 			if ( HasComponentData<T>( gameObjectId ) )
@@ -159,7 +159,7 @@ namespace Blue.ECS
 		}
 
 		public static void RemoveComponentData<T>( String gameObjectId )
-			where T : IComponentData
+			where T : ComponentData
 		{
 			String componentName = m_dataSystemMap[typeof( T ).ToString()];
 			m_componentSystems[componentName].Data.Remove( gameObjectId );

@@ -63,7 +63,7 @@ namespace Blue
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
 			{
 				ManagedSystem system = entry.Value;
-				system.Start();
+				system.Update();
 			}
 			CurrentScene.Update();
 		}
@@ -73,9 +73,8 @@ namespace Blue
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
 			{
 				ManagedSystem system = entry.Value;
-				system.Start();
+				system.Render();
 			}
-			CurrentScene.Render();
 			GameRenderer.Render( gameTime );
 
 			base.Draw(gameTime);

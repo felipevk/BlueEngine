@@ -48,6 +48,7 @@ public static class Program
 			CreateComponentData<Blue.ECS.PositionComponentData>( ball1.Id ).position = new Microsoft.Xna.Framework.Vector2( 0, 0 );
 			Blue.ECS.SpriteComponentData spriteBall1 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball1.Id );
 			spriteBall1.name = "ball";
+			spriteBall1.drawDebug = true;
 
 			CreateComponentData<Blue.ECS.PositionComponentData>( ball2.Id ).position = new Microsoft.Xna.Framework.Vector2( 200, 100 );
 			Blue.ECS.SpriteComponentData spriteBall2 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball2.Id );

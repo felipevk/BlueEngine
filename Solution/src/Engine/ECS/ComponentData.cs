@@ -1,6 +1,7 @@
 ﻿namespace Blue.ECS
 {
-	public interface IComponentData
+	public abstract class ComponentData
 	{
+		public bool enabled = true;
 	}
 }

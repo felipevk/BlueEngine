@@ -5,10 +5,13 @@ using System.Collections.Generic;
 
 namespace Blue.ECS
 {
-	public class SpriteComponentData : IComponentData
+	public class SpriteComponentData : ComponentData
 	{
 		public String name = "";
 		public Color color = Color.White;
+		public Color drawDebugColor = Color.Red;
+		public bool isVisible = true;
+		public bool drawDebug = false;
 	}
 
 	public class SpriteComponentSystem : ComponentSystem
@@ -21,7 +24,7 @@ namespace Blue.ECS
 
 		public void LoadTextures()
 		{
-			Action<String, IComponentData> loadTexture = ( gameObjectId, data ) =>
+			Action<String, ComponentData> loadTexture = ( gameObjectId, data ) =>
 			{
 				SpriteComponentData spriteData = data as SpriteComponentData;
 				if ( !Textures.ContainsKey(spriteData.name) )
@@ -33,7 +36,7 @@ namespace Blue.ECS
 			ForEachData( loadTexture );
 		}
 
-		protected override void Render( String gameObjectId, IComponentData data )
+		protected override void Render( String gameObjectId, ComponentData data )
 		{
 			SpriteComponentData spriteData = data as SpriteComponentData;
 			if ( !String.IsNullOrEmpty(spriteData.name) )
@@ -41,7 +44,16 @@ namespace Blue.ECS
 				// TODO Add require component
 				Vector2 spritePos = Scene.GetComponentData<PositionComponentData>( gameObjectId ).position;
 				Texture2D spriteTexture = Textures[GameObjectTextureMap[gameObjectId]];
-				Game.Instance.GameRenderer.PrepareToDrawSprite( spriteTexture, spritePos, spriteData.color );
+				if ( spriteData.isVisible )
+				{
+					Game.Instance.GameRenderer.PrepareToDrawSprite( spriteTexture, spritePos, spriteData.color );
+				}
+				if ( spriteData.drawDebug )
+				{
+					Game.Instance.GameRenderer.PrepareToDrawRectangle( 
+						new Rectangle( (int)spritePos.X, (int)spritePos.Y, spriteTexture.Width, spriteTexture.Height ),
+						spriteData.drawDebugColor );
+				}
 			}
 		}
 	}

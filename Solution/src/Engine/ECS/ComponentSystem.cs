@@ -8,44 +8,47 @@ namespace Blue.ECS
 		public Scene scene
 		{ get; set; }
 
-		public Dictionary<String, IComponentData> Data
-		{ get; set; } = new Dictionary<string, IComponentData>();
+		public Dictionary<String, ComponentData> Data
+		{ get; set; } = new Dictionary<string, ComponentData>();
 
-		public void ForEachData( Action<String, IComponentData> action )
+		public void ForEachData( Action<String, ComponentData> action )
 		{
-			foreach ( KeyValuePair<String, IComponentData> entry in Data )
+			foreach ( KeyValuePair<String, ComponentData> entry in Data )
 			{
-				IComponentData gameObjectData = entry.Value;
-				action( entry.Key, entry.Value );
+				ComponentData gameObjectData = entry.Value;
+				if ( gameObjectData.enabled )
+				{
+					action( entry.Key, entry.Value );
+				}
 			}
 		}
 
 		public override void Start()
 		{
-			Action<String, IComponentData> startAction = ( gameObjectId, data ) => Start( gameObjectId, data );
+			Action<String, ComponentData> startAction = ( gameObjectId, data ) => Start( gameObjectId, data );
 			ForEachData( startAction );
 		}
-		protected virtual void Start( String gameObjectId, IComponentData data ) { }
+		protected virtual void Start( String gameObjectId, ComponentData data ) { }
 
 		public override void Clean()
 		{
-			Action<String, IComponentData> cleanAction = ( gameObjectId, data ) => Clean( gameObjectId, data );
+			Action<String, ComponentData> cleanAction = ( gameObjectId, data ) => Clean( gameObjectId, data );
 			ForEachData( cleanAction );
 		}
-		protected virtual void Clean( String gameObjectId, IComponentData data ) { }
+		protected virtual void Clean( String gameObjectId, ComponentData data ) { }
 
 		public override void Update()
 		{
-			Action<String, IComponentData> updateAction = ( gameObjectId, data ) => Update( gameObjectId, data );
+			Action<String, ComponentData> updateAction = ( gameObjectId, data ) => Update( gameObjectId, data );
 			ForEachData( updateAction );
 		}
-		protected virtual void Update( String gameObjectId, IComponentData data ) { }
+		protected virtual void Update( String gameObjectId, ComponentData data ) { }
 
 		public override void Render()
 		{
-			Action<String, IComponentData> rencerAction = ( gameObjectId, data ) => Render( gameObjectId, data );
+			Action<String, ComponentData> rencerAction = ( gameObjectId, data ) => Render( gameObjectId, data );
 			ForEachData( rencerAction );
 		}
-		protected virtual void Render( String gameObjectId, IComponentData data ) { }
+		protected virtual void Render( String gameObjectId, ComponentData data ) { }
 	}
 }

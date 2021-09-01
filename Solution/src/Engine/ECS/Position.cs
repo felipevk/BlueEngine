@@ -2,7 +2,7 @@
 
 namespace Blue.ECS
 {
-	class PositionComponentData : IComponentData
+	class PositionComponentData : ComponentData
 	{
 		public Vector2 position;
 	}

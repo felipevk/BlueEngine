@@ -2,14 +2,14 @@
 using Blue;
 using Blue.ECS;
 
-public class LifetimeComponentData : IComponentData
+public class LifetimeComponentData : ComponentData
 {
 	public int Life
 	{ get; set; }
 }
 public class LifetimeComponentSystem : ComponentSystem
 {
-	protected override void Start( String gameObjectId, IComponentData data )
+	protected override void Start( String gameObjectId, ComponentData data )
 	{
 		LifetimeComponentData lifetimeData = data as LifetimeComponentData;
 		if ( IsAlive( lifetimeData ) )
@@ -19,7 +19,7 @@ public class LifetimeComponentSystem : ComponentSystem
 		}
 	}
 
-	protected override void Update( String gameObjectId, IComponentData data )
+	protected override void Update( String gameObjectId, ComponentData data )
 	{
 		LifetimeComponentData lifetimeData = data as LifetimeComponentData;
 		if ( IsAlive( lifetimeData ) )
@@ -38,6 +38,10 @@ public class LifetimeComponentSystem : ComponentSystem
 			if ( !IsAlive( lifetimeData ) )
 			{
 				Log.Message( "Entity " + gameObj.Name + " is dead" );
+				if ( Scene.HasComponentData<SpriteComponentData>( gameObjectId ) )
+				{
+					Scene.GetComponentData<SpriteComponentData>( gameObjectId ).drawDebugColor = Microsoft.Xna.Framework.Color.Yellow;
+				}
 			}
 		}
 	}
