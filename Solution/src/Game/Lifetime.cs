@@ -41,6 +41,12 @@ public class LifetimeComponentSystem : ComponentSystem
 				{
 					Scene.GetComponentData<SpriteComponentData>( gameObjectId ).drawDebugColor = Color.Yellow;
 				}
+
+				if ( Scene.HasComponentData<SoundComponentData>( gameObjectId ) )
+				{
+					SoundComponentData soundData = Scene.GetComponentData<SoundComponentData>( gameObjectId );
+					SoundComponentSystem.Play( gameObjectId, soundData );
+				}
 			}
 		}
 

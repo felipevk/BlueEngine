@@ -25,3 +25,9 @@
 /processorParam:TextureFormat=Color
 /build:ball.png
 
+#begin pop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pop.wav
+

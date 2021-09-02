@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using Blue.ECS;
+
 /// <summary>
 /// The main class.
 /// </summary>
@@ -52,6 +54,9 @@ public static class Program
 			CreateComponentData<LifetimeComponentData>( player.Id ).Life = 3000;
 			CreateComponentData<LifetimeComponentData>( ball1.Id ).Life = 40;
 			CreateComponentData<LifetimeComponentData>( ball2.Id ).Life = 5;
+
+			CreateComponentData<SoundComponentData>( ball1.Id ).name = "pop";
+			CreateComponentData<SoundComponentData>( ball2.Id ).name = "pop";
 
 			Blue.ECS.SpriteComponentData spriteBall1 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball1.Id );
 			spriteBall1.name = "ball";

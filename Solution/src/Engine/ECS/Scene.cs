@@ -14,6 +14,7 @@ namespace Blue.ECS
 		{
 			// Register Core Components
 			RegisterComponent<SpriteComponentSystem, SpriteComponentData>();
+			RegisterComponent<SoundComponentSystem, SoundComponentData>();
 
 			RegisterManagedSystems();
 			RegisterComponents();
@@ -38,6 +39,9 @@ namespace Blue.ECS
 		{
 			SpriteComponentSystem spriteSystem = m_componentSystems[typeof( SpriteComponentSystem ).ToString()] as SpriteComponentSystem;
 			spriteSystem.LoadTextures();
+
+			SoundComponentSystem soundSystem = m_componentSystems[typeof( SoundComponentSystem ).ToString()] as SoundComponentSystem;
+			soundSystem.LoadSoundEffects();
 		}
 
 		protected virtual void RegisterManagedSystems()
