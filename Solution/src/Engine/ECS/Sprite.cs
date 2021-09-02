@@ -42,7 +42,7 @@ namespace Blue.ECS
 			if ( !String.IsNullOrEmpty(spriteData.name) )
 			{
 				// TODO Add require component
-				Vector3 spritePos = scene.GetGameObject( gameObjectId ).Transform.Position;
+				Vector3 spritePos = scene.GetGameObject( gameObjectId ).GetGlobalPosition();
 				Texture2D spriteTexture = Textures[GameObjectTextureMap[gameObjectId]];
 				if ( spriteData.isVisible )
 				{

@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 
 using Blue.Core;
+using Microsoft.Xna.Framework;
 
 namespace Blue.ECS
 {
 	public class GameObject
 	{
+		public static String GenerateGameObjectId()
+		{
+			return System.Guid.NewGuid().ToString();
+		}
+
 		public GameObject( String id, String name )
 		{
 			Id = id;
@@ -17,9 +23,30 @@ namespace Blue.ECS
 		{
 		}
 
-		public static String GenerateGameObjectId()
+		public void AddChild( GameObject childObject )
 		{
-			return System.Guid.NewGuid().ToString();
+			Children.Add( childObject.Id );
+			childObject.Parent = Id;
+		}
+
+		public Vector3 GetGlobalPosition()
+		{
+			if ( Parent == null )
+				return Transform.Position;
+
+			Vector3 parentGlobalPosition = Game.Instance.CurrentScene.GetGameObject( Parent ).GetGlobalPosition();
+
+			return Transform.Position + parentGlobalPosition;
+		}
+
+		public Vector3 GetGlobalScale()
+		{
+			if ( Parent == null )
+				return Transform.Scale;
+
+			Vector3 Scale = Game.Instance.CurrentScene.GetGameObject( Parent ).GetGlobalScale();
+
+			return Transform.Scale * Scale;
 		}
 
 		public String Id
@@ -31,6 +58,10 @@ namespace Blue.ECS
 		public Transform Transform
 		{ get; set; } = new Transform();
 
-		public List<String> Children = new List<string>();
+		public String Parent
+		{ get; set; } = null;
+
+		public List<String> Children
+		{ get; set; } = new List<string>();
 	}
 }

@@ -50,6 +50,9 @@ public static class Program
 			Blue.ECS.GameObject player = RegisterGameObject( "Player" );
 			Blue.ECS.GameObject ball1 = RegisterGameObject( "Ball1" );
 			Blue.ECS.GameObject ball2 = RegisterGameObject( "Ball2" );
+			Blue.ECS.GameObject ball3 = RegisterGameObject( "Ball3" );
+
+			ball1.AddChild( ball3 );
 
 			CreateComponentData<LifetimeComponentData>( player.Id ).Life = 3000;
 			CreateComponentData<LifetimeComponentData>( ball1.Id ).Life = 40;
@@ -58,14 +61,18 @@ public static class Program
 			CreateComponentData<SoundComponentData>( ball1.Id ).name = "pop";
 			CreateComponentData<SoundComponentData>( ball2.Id ).name = "pop";
 
-			Blue.ECS.SpriteComponentData spriteBall1 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball1.Id );
+			SpriteComponentData spriteBall1 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball1.Id );
 			spriteBall1.name = "ball";
 			spriteBall1.drawDebug = true;
 
 			ball2.Transform.Position = new Vector3( 200, 100, 0 );
-			Blue.ECS.SpriteComponentData spriteBall2 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball2.Id );
+			SpriteComponentData spriteBall2 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball2.Id );
 			spriteBall2.name = "ball";
 			spriteBall2.color = Color.Yellow;
+
+			ball3.Transform.Position = new Vector3( 10, 30, 0 );
+			SpriteComponentData spriteBall3 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball3.Id );
+			spriteBall3.name = "ball";
 		}
 	};
 }
