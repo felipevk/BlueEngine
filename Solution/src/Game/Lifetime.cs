@@ -28,14 +28,11 @@ public class LifetimeComponentSystem : ComponentSystem
 		{
 			lifetimeData.Life -= 1;
 			GameObject gameObj = scene.GetGameObject( gameObjectId );
-			if ( Scene.HasComponentData<PositionComponentData>( gameObjectId ) )
-			{
-				Vector2 position = Scene.GetComponentData<PositionComponentData>( gameObjectId ).position;
-				position.X += 10;
-				position.Y += 10;
+			Vector3 position = gameObj.Transform.Position;
+			position.X += 10;
+			position.Y += 10;
 
-				Scene.GetComponentData<PositionComponentData>( gameObjectId ).position = position;
-			}
+			gameObj.Transform.Position = position;
 
 			if ( !IsAlive( lifetimeData ) )
 			{

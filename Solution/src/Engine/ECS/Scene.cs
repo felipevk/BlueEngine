@@ -13,7 +13,6 @@ namespace Blue.ECS
 		public Scene()
 		{
 			// Register Core Components
-			RegisterComponent<PositionComponentSystem, PositionComponentData>();
 			RegisterComponent<SpriteComponentSystem, SpriteComponentData>();
 
 			RegisterManagedSystems();

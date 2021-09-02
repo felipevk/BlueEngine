@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Blue.Core;
+
 namespace Blue.ECS
 {
 	public class GameObject
@@ -25,6 +27,9 @@ namespace Blue.ECS
 
 		public String Name
 		{ get; set; }
+
+		public Transform Transform
+		{ get; set; } = new Transform();
 
 		public List<String> Children = new List<string>();
 	}

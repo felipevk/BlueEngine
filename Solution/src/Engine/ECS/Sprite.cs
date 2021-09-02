@@ -42,11 +42,11 @@ namespace Blue.ECS
 			if ( !String.IsNullOrEmpty(spriteData.name) )
 			{
 				// TODO Add require component
-				Vector2 spritePos = Scene.GetComponentData<PositionComponentData>( gameObjectId ).position;
+				Vector3 spritePos = scene.GetGameObject( gameObjectId ).Transform.Position;
 				Texture2D spriteTexture = Textures[GameObjectTextureMap[gameObjectId]];
 				if ( spriteData.isVisible )
 				{
-					Game.Instance.GameRenderer.PrepareToDrawSprite( spriteTexture, spritePos, spriteData.color );
+					Game.Instance.GameRenderer.PrepareToDrawSprite( spriteTexture, new Vector2( spritePos.X, spritePos.Y ), spriteData.color );
 				}
 				if ( spriteData.drawDebug )
 				{

@@ -92,11 +92,11 @@
     <Compile Include="src\Engine\Core\Game.cs" />
     <Compile Include="src\Engine\Core\Log.cs" />
     <Compile Include="src\Engine\Core\Renderer.cs" />
+    <Compile Include="src\Engine\Core\Transform.cs" />
     <Compile Include="src\Engine\ECS\ComponentData.cs" />
     <Compile Include="src\Engine\ECS\ComponentSystem.cs" />
     <Compile Include="src\Engine\ECS\GameObject.cs" />
     <Compile Include="src\Engine\ECS\ManagedSystem.cs" />
-    <Compile Include="src\Engine\ECS\Position.cs" />
     <Compile Include="src\Engine\ECS\Scene.cs" />
     <Compile Include="src\Engine\ECS\Sprite.cs" />
     <Compile Include="src\Game\Lifetime.cs" />
