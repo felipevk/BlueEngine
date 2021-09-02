@@ -35,24 +35,18 @@ namespace Blue.ECS
 			ForEachData( loadSoundEffect );
 		}
 
-		public override void Update()
+		protected override void Update( String gameObjectId, ComponentData data )
 		{
-			base.Update();
-
-			Action<String, ComponentData> updateEffectInstance = ( gameObjectId, data ) =>
+			SoundComponentData soundData = data as SoundComponentData;
+			if ( GameObjectSoundEffectInstanceMap.ContainsKey( gameObjectId ) )
 			{
-				SoundComponentData soundData = data as SoundComponentData;
-				if ( GameObjectSoundEffectInstanceMap.ContainsKey( gameObjectId ) )
-				{
-					SoundEffectInstance soundEffectInstance = GameObjectSoundEffectInstanceMap[gameObjectId];
+				SoundEffectInstance soundEffectInstance = GameObjectSoundEffectInstanceMap[gameObjectId];
 
-					soundEffectInstance.Volume = soundData.volume;
-					soundEffectInstance.Pitch = soundData.pitch;
-					soundEffectInstance.Pan = soundData.pan;
-					soundEffectInstance.IsLooped = soundData.loop;
-				}
-			};
-			ForEachData( updateEffectInstance );
+				soundEffectInstance.Volume = soundData.volume;
+				soundEffectInstance.Pitch = soundData.pitch;
+				soundEffectInstance.Pan = soundData.pan;
+				soundEffectInstance.IsLooped = soundData.loop;
+			}
 		}
 
 		public static SoundEffectInstance CreateOrAddSoundEffectInstance( String gameObjectId, SoundComponentData data )
