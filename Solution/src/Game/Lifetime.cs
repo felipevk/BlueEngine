@@ -43,6 +43,14 @@ public class LifetimeComponentSystem : ComponentSystem
 				}
 			}
 		}
+
+		if ( !IsAlive( lifetimeData ) )
+		{
+			if ( Blue.Game.Instance.GameInput.IsButtonPressed( "fire1", 0 ) )
+			{
+				lifetimeData.Life = 10;
+			}
+		}
 	}
 
 	public bool IsAlive( LifetimeComponentData data )

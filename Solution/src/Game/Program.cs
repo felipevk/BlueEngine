@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 /// <summary>
 /// The main class.
@@ -19,6 +20,11 @@ public static class Program
 		{
 			CurrentScene = new MainScene();
 			base.Initialize();
+
+			GameInput.CreateInputGroup( "fire1" );
+			GameInput.AddButtonToGroup( "fire1", Buttons.RightTrigger );
+			GameInput.AddKeyToGroup( "fire1", Keys.Space );
+			GameInput.AddKeyToGroup( "fire1", Keys.Enter );
 		}
 
 		protected override void LoadContent()

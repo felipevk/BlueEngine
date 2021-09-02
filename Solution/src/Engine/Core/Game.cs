@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using Blue.ECS;
+using Blue.Core;
 
 namespace Blue
 {
@@ -14,6 +15,9 @@ namespace Blue
 		{ get; set; }
 
 		public Renderer GameRenderer
+		{ get; }
+
+		public Input GameInput
 		{ get; }
 
 		private static Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
@@ -29,6 +33,7 @@ namespace Blue
 		{
 			Instance = this;
 			GameRenderer = new Renderer();
+			GameInput = new Input();
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
 			RegisterManagedSystems();
@@ -59,6 +64,8 @@ namespace Blue
 		protected override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
+
+			GameInput.Update();
 
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
 			{
