@@ -26,16 +26,16 @@ namespace Blue
 		}
 
 		public Game()
-        {
+		{
 			Instance = this;
 			GameRenderer = new Renderer();
 			Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+			IsMouseVisible = true;
 			RegisterManagedSystems();
 		}
 
-        protected override void Initialize()
-        {
+		protected override void Initialize()
+		{
 			Log.Message( "BlueEngine Game Started!" );
 			base.Initialize();
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
@@ -46,8 +46,8 @@ namespace Blue
 			CurrentScene.Start();
 		}
 
-        protected override void LoadContent()
-        {
+		protected override void LoadContent()
+		{
 			GameRenderer.LoadContent();
 			CurrentScene.LoadContent();
 		}
@@ -57,8 +57,8 @@ namespace Blue
 		}
 
 		protected override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
+		{
+			base.Update(gameTime);
 
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
 			{
@@ -68,8 +68,8 @@ namespace Blue
 			CurrentScene.Update();
 		}
 
-        protected override void Draw(GameTime gameTime)
-        {
+		protected override void Draw(GameTime gameTime)
+		{
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
 			{
 				ManagedSystem system = entry.Value;
@@ -78,7 +78,7 @@ namespace Blue
 			GameRenderer.Render( gameTime );
 
 			base.Draw(gameTime);
-        }
+		}
 
 		protected void RegisterManagedSystem<T>()
 			where T : ManagedSystem, new()
