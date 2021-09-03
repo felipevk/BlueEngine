@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Blue;
+using Blue.Core;
 using Blue.ECS;
 using Microsoft.Xna.Framework;
 
@@ -52,7 +53,7 @@ public class LifetimeComponentSystem : ComponentSystem
 
 		if ( !IsAlive( lifetimeData ) )
 		{
-			if ( Blue.Game.Instance.GameInput.IsButtonPressed( "fire1", 0 ) )
+			if ( Input.IsButtonPressed( "fire1", 0 ) )
 			{
 				lifetimeData.Life = 10;
 			}

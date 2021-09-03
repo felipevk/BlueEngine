@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using Blue.Core;
 using Blue.ECS;
 
 /// <summary>
@@ -23,10 +24,10 @@ public static class Program
 			CurrentScene = new MainScene();
 			base.Initialize();
 
-			GameInput.CreateInputGroup( "fire1" );
-			GameInput.AddButtonToGroup( "fire1", Buttons.RightTrigger );
-			GameInput.AddKeyToGroup( "fire1", Keys.Space );
-			GameInput.AddKeyToGroup( "fire1", Keys.Enter );
+			Input.CreateInputGroup( "fire1" );
+			Input.AddButtonToGroup( "fire1", Buttons.RightTrigger );
+			Input.AddKeyToGroup( "fire1", Keys.Space );
+			Input.AddKeyToGroup( "fire1", Keys.Enter );
 		}
 
 		protected override void LoadContent()

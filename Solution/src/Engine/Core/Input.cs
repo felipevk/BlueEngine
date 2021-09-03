@@ -7,14 +7,38 @@ namespace Blue.Core
 {
 	public class InputGroup
 	{
+		public struct KeyPressedState
+		{
+			public Keys key;
+			public bool isPressed;
+			public KeyState previousState;
+
+			public static implicit operator KeyPressedState( Keys keyIn )
+			{
+				return new KeyPressedState() { key = keyIn, isPressed = false, previousState = KeyState.Up };
+			}
+		}
+
+		public struct ButtonPressedState
+		{
+			public Buttons button;
+			public bool isPressed;
+			public bool wasDown;
+
+			public static implicit operator ButtonPressedState( Buttons buttonIn )
+			{
+				return new ButtonPressedState() { button = buttonIn, isPressed = false, wasDown = false };
+			}
+		}
+
 		public String Name
 		{ get; set; }
 
-		public List<Keys> Keys
-		{ get; set; } = new List<Keys>();
+		public List<KeyPressedState> KeyStates
+		{ get; set; } = new List<KeyPressedState>();
 
-		public List<Buttons> Buttons
-		{ get; set; } = new List<Buttons>();
+		public List<ButtonPressedState> ButtonStates
+		{ get; set; } = new List<ButtonPressedState>();
 
 		// TODO add player index
 
@@ -22,15 +46,15 @@ namespace Blue.Core
 
 		public bool IsUp( KeyboardState keyboardState, GamePadState gamePadState )
 		{
-			foreach ( var key in Keys )
+			foreach ( var keyState in KeyStates )
 			{
-				if ( keyboardState.IsKeyUp( key ) )
+				if ( keyboardState.IsKeyUp( keyState.key ) )
 					return true;
 			}
 
-			foreach ( var button in Buttons )
+			foreach ( var buttonState in ButtonStates )
 			{
-				if ( gamePadState.IsButtonUp( button ) )
+				if ( gamePadState.IsButtonUp( buttonState.button ) )
 					return true;
 			}
 
@@ -39,15 +63,15 @@ namespace Blue.Core
 
 		public bool IsDown( KeyboardState keyboardState, GamePadState gamePadState )
 		{
-			foreach ( var key in Keys )
+			foreach ( var keyState in KeyStates )
 			{
-				if ( keyboardState.IsKeyDown( key ) )
+				if ( keyboardState.IsKeyDown( keyState.key ) )
 					return true;
 			}
 
-			foreach ( var button in Buttons )
+			foreach ( var buttonState in ButtonStates )
 			{
-				if ( gamePadState.IsButtonDown( button ) )
+				if ( gamePadState.IsButtonDown( buttonState.button ) )
 					return true;
 			}
 
@@ -56,17 +80,48 @@ namespace Blue.Core
 
 		public bool IsPressed()
 		{
-			// TODO
+			foreach ( var keyState in KeyStates )
+			{
+				if ( keyState.isPressed )
+					return true;
+			}
+
+			foreach ( var buttonState in ButtonStates )
+			{
+				if ( buttonState.isPressed )
+					return true;
+			}
 
 			return false;
 		}
+
+		public void UpdateIsKeyButtonPressed( KeyboardState keyboardState, GamePadState gamePadState )
+		{
+			for ( int i = 0; i < KeyStates.Count; i++ )
+			{
+				KeyPressedState keyPressedState = KeyStates[i];
+				keyPressedState.isPressed = keyboardState.IsKeyDown( keyPressedState.key ) && keyPressedState.previousState == KeyState.Up;
+
+				keyPressedState.previousState = keyboardState[keyPressedState.key];
+				KeyStates[i] = keyPressedState;
+			}
+
+			for ( int i = 0; i < ButtonStates.Count; i++ )
+			{
+				ButtonPressedState buttonPressedState = ButtonStates[i];
+				buttonPressedState.isPressed = gamePadState.IsButtonDown( buttonPressedState.button ) && !buttonPressedState.wasDown;
+
+				buttonPressedState.wasDown = gamePadState.IsButtonDown( buttonPressedState.button );
+				ButtonStates[i] = buttonPressedState;
+			}
+		}
 	}
-	public class Input
+	public static class Input
 	{
-		public Dictionary<String, InputGroup> Groups
+		public static Dictionary<String, InputGroup> Groups
 		{ get; set; } = new Dictionary<string, InputGroup>();
 
-		public void CreateInputGroup( String name )
+		public static void CreateInputGroup( String name )
 		{
 			if ( Groups.ContainsKey( name ) )
 				return;
@@ -74,7 +129,7 @@ namespace Blue.Core
 			Groups.Add( name, new InputGroup( name ) );
 		}
 
-		public void AddKeyToGroup( String groupName, Keys key )
+		public static void AddKeyToGroup( String groupName, Keys key )
 		{
 			if ( !Groups.ContainsKey( groupName ) )
 			{
@@ -82,10 +137,10 @@ namespace Blue.Core
 				return;
 			}
 
-			Groups[groupName].Keys.Add( key );
+			Groups[groupName].KeyStates.Add( key );
 		}
 
-		public void AddButtonToGroup( String groupName, Buttons button )
+		public static void AddButtonToGroup( String groupName, Buttons button )
 		{
 			if ( !Groups.ContainsKey( groupName ) )
 			{
@@ -93,10 +148,10 @@ namespace Blue.Core
 				return;
 			}
 
-			Groups[groupName].Buttons.Add( button );
+			Groups[groupName].ButtonStates.Add( button );
 		}
 
-		public bool IsButtonUp( String groupName, int index )
+		public static bool IsButtonUp( String groupName, int index )
 		{
 			if ( !Groups.ContainsKey( groupName ) )
 			{
@@ -106,7 +161,7 @@ namespace Blue.Core
 			return Groups[groupName].IsUp(Keyboard.GetState(), GamePad.GetState( index ));
 		}
 
-		public bool IsButtonDown( String groupName, int index )
+		public static bool IsButtonDown( String groupName, int index )
 		{
 			if ( !Groups.ContainsKey( groupName ) )
 			{
@@ -116,16 +171,22 @@ namespace Blue.Core
 			return Groups[groupName].IsDown( Keyboard.GetState(), GamePad.GetState( index ) );
 		}
 
-		public bool IsButtonPressed( String groupName, int index )
+		public static bool IsButtonPressed( String groupName, int index )
 		{
-			// TODO cache button press by index and retrieve it
-
 			return Groups[groupName].IsPressed();
 		}
 
-		public void Update()
+		public static void Update()
 		{
-			// TODO manage button press state
+			KeyboardState keyboardState = Keyboard.GetState();
+
+			// TODO properly assign InputGroups to gamepad Index
+			GamePadState gamePadState = GamePad.GetState( 0 );
+			foreach ( var groupKvp in Groups )
+			{
+				groupKvp.Value.UpdateIsKeyButtonPressed( keyboardState, gamePadState );
+			}
+
 		}
 	}
 }
