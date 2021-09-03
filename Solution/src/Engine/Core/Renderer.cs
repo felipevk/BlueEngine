@@ -25,11 +25,13 @@ namespace Blue
 		{
 			public Rectangle rect;
 			public Color color;
+			public bool isFilled;
 
-			public RectangleDrawCall( Rectangle rectIn, Color colorIn )
+			public RectangleDrawCall( Rectangle rectIn, Color colorIn, bool isFilledIn )
 			{
 				rect = rectIn;
 				color = colorIn;
+				isFilled = isFilledIn;
 			}
 		}
 
@@ -62,7 +64,10 @@ namespace Blue
 			}
 			foreach ( RectangleDrawCall rectangleDrawCall in _rectangleDrawCalls )
 			{
-				Primitives2D.DrawRectangle( _spriteBatch, rectangleDrawCall.rect, rectangleDrawCall.color );
+				if ( rectangleDrawCall.isFilled )
+					Primitives2D.FillRectangle( _spriteBatch, rectangleDrawCall.rect, rectangleDrawCall.color );
+				else
+					Primitives2D.DrawRectangle( _spriteBatch, rectangleDrawCall.rect, rectangleDrawCall.color );
 			}
 			_spriteBatch.End();
 			_spriteDrawCalls.Clear();
@@ -74,9 +79,9 @@ namespace Blue
 			_spriteDrawCalls.Add( new SpriteDrawCall( texture, position, color ) );
 		}
 
-		public void PrepareToDrawRectangle( Rectangle rect, Color color )
+		public void PrepareToDrawRectangle( Rectangle rect, Color color, bool isFilled )
 		{
-			_rectangleDrawCalls.Add( new RectangleDrawCall( rect, color ) );
+			_rectangleDrawCalls.Add( new RectangleDrawCall( rect, color, isFilled ) );
 		}
 	}
 }

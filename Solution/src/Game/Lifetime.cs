@@ -30,8 +30,8 @@ public class LifetimeComponentSystem : ComponentSystem
 			lifetimeData.Life -= 1;
 			GameObject gameObj = scene.GetGameObject( gameObjectId );
 			Vector3 position = gameObj.Transform.Position;
-			position.X += 10;
-			position.Y += 10;
+			position.X += 2;
+			position.Y += 2;
 
 			gameObj.Transform.Position = position;
 

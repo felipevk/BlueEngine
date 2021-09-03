@@ -46,9 +46,42 @@ namespace Blue.ECS
 
 		public override void Render()
 		{
-			Action<String, ComponentData> rencerAction = ( gameObjectId, data ) => Render( gameObjectId, data );
-			ForEachData( rencerAction );
+			Action<String, ComponentData> renderAction = ( gameObjectId, data ) => Render( gameObjectId, data );
+			ForEachData( renderAction );
 		}
 		protected virtual void Render( String gameObjectId, ComponentData data ) { }
+
+		public void ProcessCollisions( Collision2DManager.CollisionGlobalState collisionState )
+		{
+			Action<String, ComponentData> triggerCollision = ( gameObjectId, data ) =>
+			{
+				if ( collisionState.collisionsPerGameObject.ContainsKey( gameObjectId ) )
+				{
+					Collision2DManager.GameObjectCollisions gameObjectCollisions = collisionState.collisionsPerGameObject[gameObjectId];
+					foreach ( var colliderKvp in gameObjectCollisions.collisions )
+					{
+						switch ( colliderKvp.Value.state )
+						{
+							case Collision2DManager.CollisionState.Enter:
+								OnCollision2DEnter( gameObjectId, data, colliderKvp.Key );
+								break;
+							case Collision2DManager.CollisionState.Stay:
+								OnCollision2DStay( gameObjectId, data, colliderKvp.Key );
+								break;
+							case Collision2DManager.CollisionState.Exit:
+								OnCollision2DExit( gameObjectId, data, colliderKvp.Key );
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			};
+			ForEachData( triggerCollision );
+		}
+
+		protected virtual void OnCollision2DEnter( String gameObjectId, ComponentData data, String colliderId ) { }
+		protected virtual void OnCollision2DStay( String gameObjectId, ComponentData data, String colliderId ) { }
+		protected virtual void OnCollision2DExit( String gameObjectId, ComponentData data, String colliderId ) { }
 	}
 }

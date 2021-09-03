@@ -94,6 +94,7 @@
     <Compile Include="src\Engine\Core\Log.cs" />
     <Compile Include="src\Engine\Core\Renderer.cs" />
     <Compile Include="src\Engine\Core\Transform.cs" />
+    <Compile Include="src\Engine\ECS\Collision.cs" />
     <Compile Include="src\Engine\ECS\ComponentData.cs" />
     <Compile Include="src\Engine\ECS\ComponentSystem.cs" />
     <Compile Include="src\Engine\ECS\GameObject.cs" />

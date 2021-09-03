@@ -69,6 +69,10 @@ namespace Blue
 				system.Update();
 			}
 			CurrentScene.Update();
+
+			Collision2DManager.Update();
+
+			CurrentScene.ProcessCollisions( Collision2DManager.GetGlobalState() );
 		}
 
 		protected override void Draw(GameTime gameTime)

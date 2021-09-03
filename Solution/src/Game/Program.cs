@@ -56,7 +56,7 @@ public static class Program
 			ball1.AddChild( ball3 );
 
 			CreateComponentData<LifetimeComponentData>( player.Id ).Life = 3000;
-			CreateComponentData<LifetimeComponentData>( ball1.Id ).Life = 40;
+			CreateComponentData<LifetimeComponentData>( ball1.Id ).Life = 400;
 			CreateComponentData<LifetimeComponentData>( ball2.Id ).Life = 5;
 
 			CreateComponentData<SoundComponentData>( ball1.Id ).name = "pop";
@@ -66,14 +66,29 @@ public static class Program
 			spriteBall1.name = "ball";
 			spriteBall1.drawDebug = true;
 
+			BoxCollision2DComponentData ball1Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball1.Id );
+			ball1Collider.drawDebug = true;
+			ball1Collider.rectangle.Width = 40;
+			ball1Collider.rectangle.Height = 40;
+
 			ball2.Transform.Position = new Vector3( 200, 100, 0 );
 			SpriteComponentData spriteBall2 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball2.Id );
 			spriteBall2.name = "ball";
 			spriteBall2.color = Color.Yellow;
 
+			BoxCollision2DComponentData ball2Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball2.Id );
+			ball2Collider.drawDebug = true;
+			ball2Collider.rectangle.Width = 100;
+			ball2Collider.rectangle.Height = 100;
+
 			ball3.Transform.Position = new Vector3( 10, 30, 0 );
 			SpriteComponentData spriteBall3 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball3.Id );
 			spriteBall3.name = "ball";
+
+			BoxCollision2DComponentData ball3Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball3.Id );
+			ball3Collider.drawDebug = true;
+			ball3Collider.rectangle.Width = 40;
+			ball3Collider.rectangle.Height = 40;
 		}
 	};
 }

@@ -41,7 +41,6 @@ namespace Blue.ECS
 			SpriteComponentData spriteData = data as SpriteComponentData;
 			if ( !String.IsNullOrEmpty(spriteData.name) )
 			{
-				// TODO Add require component
 				Vector3 spritePos = scene.GetGameObject( gameObjectId ).GetGlobalPosition();
 				Texture2D spriteTexture = Textures[GameObjectTextureMap[gameObjectId]];
 				if ( spriteData.isVisible )
@@ -52,7 +51,8 @@ namespace Blue.ECS
 				{
 					Game.Instance.GameRenderer.PrepareToDrawRectangle( 
 						new Rectangle( (int)spritePos.X, (int)spritePos.Y, spriteTexture.Width, spriteTexture.Height ),
-						spriteData.drawDebugColor );
+						spriteData.drawDebugColor,
+						false );
 				}
 			}
 		}

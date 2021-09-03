@@ -14,6 +14,7 @@ namespace Blue.ECS
 		{
 			// Register Core Components
 			RegisterComponent<SpriteComponentSystem, SpriteComponentData>();
+			RegisterComponent<BoxCollision2DComponentSystem, BoxCollision2DComponentData>();
 			RegisterComponent<SoundComponentSystem, SoundComponentData>();
 
 			RegisterManagedSystems();
@@ -193,6 +194,15 @@ namespace Blue.ECS
 			{
 				ComponentSystem system = entry.Value;
 				system.Render();
+			}
+		}
+
+		public void ProcessCollisions( Collision2DManager.CollisionGlobalState collisionGlobalState )
+		{
+			foreach ( KeyValuePair<String, ComponentSystem> entry in m_componentSystems )
+			{
+				ComponentSystem system = entry.Value;
+				system.ProcessCollisions( collisionGlobalState );
 			}
 		}
 	}
