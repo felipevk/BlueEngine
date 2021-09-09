@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame;
+using System;
 using System.Collections.Generic;
 
 namespace Blue
@@ -35,11 +36,28 @@ namespace Blue
 			}
 		}
 
+		struct TextDrawCall
+		{
+			public SpriteFont font;
+			public String text;
+			public Vector2 position;
+			public Color color;
+
+			public TextDrawCall( SpriteFont fontIn, String textIn, Vector2 positionIn, Color colorIn )
+			{
+				font = fontIn;
+				text = textIn;
+				position = positionIn;
+				color = colorIn;
+			}
+		}
+
 		protected GraphicsDeviceManager _graphics;
 		protected SpriteBatch _spriteBatch;
 
 		private List<SpriteDrawCall> _spriteDrawCalls = new List<SpriteDrawCall>();
 		private List<RectangleDrawCall> _rectangleDrawCalls = new List<RectangleDrawCall>();
+		private List<TextDrawCall> _textDrawCalls = new List<TextDrawCall>();
 
 		public Renderer()
 		{
@@ -76,9 +94,14 @@ namespace Blue
 				else
 					Primitives2D.DrawRectangle( _spriteBatch, rectangleDrawCall.rect, rectangleDrawCall.color );
 			}
+			foreach ( TextDrawCall textDrawCall in _textDrawCalls )
+			{
+				_spriteBatch.DrawString( textDrawCall.font, textDrawCall.text, textDrawCall.position, textDrawCall.color );
+			}
 			_spriteBatch.End();
 			_spriteDrawCalls.Clear();
 			_rectangleDrawCalls.Clear();
+			_textDrawCalls.Clear();
 		}
 
 		public void PrepareToDrawSprite( Texture2D texture, Vector2 position, Color color )
@@ -89,6 +112,11 @@ namespace Blue
 		public void PrepareToDrawRectangle( Rectangle rect, Color color, bool isFilled )
 		{
 			_rectangleDrawCalls.Add( new RectangleDrawCall( rect, color, isFilled ) );
+		}
+
+		public void PrepareToDrawText( SpriteFont font, String text, Vector2 position, Color color )
+		{
+			_textDrawCalls.Add( new TextDrawCall( font, text, position, color ) );
 		}
 	}
 }

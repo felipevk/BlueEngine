@@ -48,10 +48,10 @@ public static class Program
 		{
 			base.RegisterGameObjects();
 
-			Blue.ECS.GameObject player = RegisterGameObject( "Player" );
-			Blue.ECS.GameObject ball1 = RegisterGameObject( "Ball1" );
-			Blue.ECS.GameObject ball2 = RegisterGameObject( "Ball2" );
-			Blue.ECS.GameObject ball3 = RegisterGameObject( "Ball3" );
+			GameObject player = RegisterGameObject( "Player" );
+			GameObject ball1 = RegisterGameObject( "Ball1" );
+			GameObject ball2 = RegisterGameObject( "Ball2" );
+			GameObject ball3 = RegisterGameObject( "Ball3" );
 
 			ball1.AddChild( ball3 );
 
@@ -63,30 +63,39 @@ public static class Program
 			CreateComponentData<SoundComponentData>( ball2.Id ).name = "pop";
 
 			ball1.Transform.Position = new Vector3( 200, 0, 0 );
-			SpriteComponentData spriteBall1 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball1.Id );
+			SpriteComponentData spriteBall1 = CreateComponentData<SpriteComponentData>( ball1.Id );
 			spriteBall1.name = "ball";
 			spriteBall1.drawDebug = true;
 
-			BoxCollision2DComponentData ball1Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball1.Id );
+			TextComponentData ball1Text = CreateComponentData<TextComponentData>( ball1.Id );
+			ball1Text.fontName = "PixeloidSans";
+			ball1Text.text = "Hello World!";
+
+			BoxCollision2DComponentData ball1Collider = CreateComponentData<BoxCollision2DComponentData>( ball1.Id );
 			ball1Collider.drawDebug = true;
 			ball1Collider.Width = 40;
 			ball1Collider.Height = 40;
 
 			ball2.Transform.Position = new Vector3( 400, 200, 0 );
-			SpriteComponentData spriteBall2 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball2.Id );
+			SpriteComponentData spriteBall2 = CreateComponentData<SpriteComponentData>( ball2.Id );
 			spriteBall2.name = "ball";
 			spriteBall2.color = Color.Yellow;
 
-			BoxCollision2DComponentData ball2Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball2.Id );
+			BoxCollision2DComponentData ball2Collider = CreateComponentData<BoxCollision2DComponentData>( ball2.Id );
 			ball2Collider.drawDebug = true;
 			ball2Collider.Width = 100;
 			ball2Collider.Height = 100;
 
+			TextComponentData ball2Text = CreateComponentData<TextComponentData>( ball2.Id );
+			ball2Text.fontName = "PixeloidSans";
+			ball2Text.text = "In Different Colors";
+			ball2Text.color = Color.Green;
+
 			ball3.Transform.Position = new Vector3( 10, 30, 0 );
-			SpriteComponentData spriteBall3 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball3.Id );
+			SpriteComponentData spriteBall3 = CreateComponentData<SpriteComponentData>( ball3.Id );
 			spriteBall3.name = "ball";
 
-			BoxCollision2DComponentData ball3Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball3.Id );
+			BoxCollision2DComponentData ball3Collider = CreateComponentData<BoxCollision2DComponentData>( ball3.Id );
 			ball3Collider.drawDebug = true;
 			ball3Collider.Width = 40;
 			ball3Collider.Height = 40;

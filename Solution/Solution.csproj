@@ -102,6 +102,7 @@
     <Compile Include="src\Engine\ECS\Scene.cs" />
     <Compile Include="src\Engine\ECS\Sound.cs" />
     <Compile Include="src\Engine\ECS\Sprite.cs" />
+    <Compile Include="src\Engine\ECS\Text.cs" />
     <Compile Include="src\Game\Lifetime.cs" />
     <Compile Include="src\Game\Program.cs" />
   </ItemGroup>

@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:ball.png
 
+#begin PixeloidSans.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:PixeloidSans.spritefont
+
 #begin pop.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

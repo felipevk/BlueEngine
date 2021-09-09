@@ -23,6 +23,8 @@ namespace Blue.ECS
 			}
 		}
 
+		public virtual void LoadContent() { }
+
 		public override void Start()
 		{
 			Action<String, ComponentData> startAction = ( gameObjectId, data ) => Start( gameObjectId, data );

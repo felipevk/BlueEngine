@@ -22,7 +22,7 @@ namespace Blue.ECS
 		private static Dictionary<String, String> GameObjectTextureMap
 		{ get; set; } = new Dictionary<String, String>();
 
-		public void LoadTextures()
+		public override void LoadContent()
 		{
 			Action<String, ComponentData> loadTexture = ( gameObjectId, data ) =>
 			{

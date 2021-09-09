@@ -22,7 +22,7 @@ namespace Blue.ECS
 		private static Dictionary<String, SoundEffectInstance> GameObjectSoundEffectInstanceMap
 		{ get; set; } = new Dictionary<String, SoundEffectInstance>();
 
-		public void LoadSoundEffects()
+		public override void LoadContent()
 		{
 			Action<String, ComponentData> loadSoundEffect = ( gameObjectId, data ) =>
 			{
