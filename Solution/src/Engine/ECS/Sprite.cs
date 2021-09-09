@@ -41,8 +41,10 @@ namespace Blue.ECS
 			SpriteComponentData spriteData = data as SpriteComponentData;
 			if ( !String.IsNullOrEmpty(spriteData.name) )
 			{
-				Vector3 spritePos = scene.GetGameObject( gameObjectId ).GetGlobalPosition();
 				Texture2D spriteTexture = Textures[GameObjectTextureMap[gameObjectId]];
+				Vector3 spritePos = scene.GetGameObject( gameObjectId ).GetGlobalPosition();
+				spritePos.X -= spriteTexture.Width / 2;
+				spritePos.Y -= spriteTexture.Height / 2;
 				if ( spriteData.isVisible )
 				{
 					Game.Instance.GameRenderer.PrepareToDrawSprite( spriteTexture, new Vector2( spritePos.X, spritePos.Y ), spriteData.color );

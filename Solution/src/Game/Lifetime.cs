@@ -62,6 +62,6 @@ public class LifetimeComponentSystem : ComponentSystem
 
 	public bool IsAlive( LifetimeComponentData data )
 	{
-		return data.Life >= 0;
+		return data.Life > 0;
 	}
 }

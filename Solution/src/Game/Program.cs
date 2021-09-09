@@ -57,29 +57,30 @@ public static class Program
 
 			CreateComponentData<LifetimeComponentData>( player.Id ).Life = 3000;
 			CreateComponentData<LifetimeComponentData>( ball1.Id ).Life = 400;
-			CreateComponentData<LifetimeComponentData>( ball2.Id ).Life = 5;
+			CreateComponentData<LifetimeComponentData>( ball2.Id ).Life = 0;
 
 			CreateComponentData<SoundComponentData>( ball1.Id ).name = "pop";
 			CreateComponentData<SoundComponentData>( ball2.Id ).name = "pop";
 
+			ball1.Transform.Position = new Vector3( 200, 0, 0 );
 			SpriteComponentData spriteBall1 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball1.Id );
 			spriteBall1.name = "ball";
 			spriteBall1.drawDebug = true;
 
 			BoxCollision2DComponentData ball1Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball1.Id );
 			ball1Collider.drawDebug = true;
-			ball1Collider.rectangle.Width = 40;
-			ball1Collider.rectangle.Height = 40;
+			ball1Collider.Width = 40;
+			ball1Collider.Height = 40;
 
-			ball2.Transform.Position = new Vector3( 200, 100, 0 );
+			ball2.Transform.Position = new Vector3( 400, 200, 0 );
 			SpriteComponentData spriteBall2 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball2.Id );
 			spriteBall2.name = "ball";
 			spriteBall2.color = Color.Yellow;
 
 			BoxCollision2DComponentData ball2Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball2.Id );
 			ball2Collider.drawDebug = true;
-			ball2Collider.rectangle.Width = 100;
-			ball2Collider.rectangle.Height = 100;
+			ball2Collider.Width = 100;
+			ball2Collider.Height = 100;
 
 			ball3.Transform.Position = new Vector3( 10, 30, 0 );
 			SpriteComponentData spriteBall3 = CreateComponentData<Blue.ECS.SpriteComponentData>( ball3.Id );
@@ -87,8 +88,8 @@ public static class Program
 
 			BoxCollision2DComponentData ball3Collider = CreateComponentData<Blue.ECS.BoxCollision2DComponentData>( ball3.Id );
 			ball3Collider.drawDebug = true;
-			ball3Collider.rectangle.Width = 40;
-			ball3Collider.rectangle.Height = 40;
+			ball3Collider.Width = 40;
+			ball3Collider.Height = 40;
 		}
 	};
 }

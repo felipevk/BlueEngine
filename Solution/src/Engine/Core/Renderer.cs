@@ -46,6 +46,13 @@ namespace Blue
 			_graphics = new GraphicsDeviceManager( Game.Instance );
 		}
 
+		public void SetWindowSize( int width, int height )
+		{
+			_graphics.PreferredBackBufferWidth = width;
+			_graphics.PreferredBackBufferHeight = height;
+			_graphics.ApplyChanges();
+		}
+
 		public void LoadContent()
 		{
 			_spriteBatch = new SpriteBatch( Game.Instance.GraphicsDevice );

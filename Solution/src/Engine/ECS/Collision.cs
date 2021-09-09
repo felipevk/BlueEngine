@@ -21,7 +21,8 @@ namespace Blue.ECS
 	}
 	public class BoxCollision2DComponentData : ComponentData
 	{
-		public Rectangle rectangle = Rectangle.Empty;
+		public int Width = 0;
+		public int Height = 0;
 		public bool drawDebug = false;
 		public int collisions = 0;
 	}
@@ -39,9 +40,9 @@ namespace Blue.ECS
 			BoxCollision2DComponentData boxCollision2DData = data as BoxCollision2DComponentData;
 			if ( boxCollision2DData.drawDebug )
 			{
-				Rectangle globalRectangle = boxCollision2DData.rectangle;
-				globalRectangle.X += (int)scene.GetGameObject( gameObjectId ).GetGlobalPosition().X;
-				globalRectangle.Y += (int)scene.GetGameObject( gameObjectId ).GetGlobalPosition().Y;
+				Rectangle globalRectangle = new Rectangle( 0, 0, boxCollision2DData.Width, boxCollision2DData.Height );
+				globalRectangle.X = (int)scene.GetGameObject( gameObjectId ).GetGlobalPosition().X - boxCollision2DData.Width / 2;
+				globalRectangle.Y = (int)scene.GetGameObject( gameObjectId ).GetGlobalPosition().Y - boxCollision2DData.Height / 2;
 				Color debugColor = boxCollision2DData.collisions > 0 ? Color.Red : Color.Green;
 				debugColor.A = 128;
 				Game.Instance.GameRenderer.PrepareToDrawRectangle(
@@ -56,11 +57,11 @@ namespace Blue.ECS
 			Vector3 globalPosition = scene.GetGameObject( gameObjectId ).GetGlobalPosition();
 
 			AABB2D aabb = new AABB2D( gameObjectId );
-			aabb.min.Y = data.rectangle.Bottom + globalPosition.Y;
-			aabb.min.X = data.rectangle.Left + globalPosition.X;
+			aabb.min.X = globalPosition.X - data.Width / 2;
+			aabb.min.Y = globalPosition.Y - data.Height / 2;
 
-			aabb.max.Y = data.rectangle.Top + globalPosition.Y;
-			aabb.max.X = data.rectangle.Right + globalPosition.X;
+			aabb.max.X = globalPosition.X + data.Width / 2;
+			aabb.max.Y = globalPosition.Y + data.Height / 2;
 
 			return aabb;
 		}
@@ -312,13 +313,15 @@ namespace Blue.ECS
 			foreach ( var collisionRequest in collisionRequests )
 			{
 				// TODO implement proper individual collision with correct scene reference
-				Rectangle rect1 = Scene.GetComponentData<BoxCollision2DComponentData>( collisionRequest.Item1 ).rectangle;
-				rect1.X += (int)Game.Instance.CurrentScene.GetGameObject( collisionRequest.Item1 ).GetGlobalPosition().X;
-				rect1.Y += (int)Game.Instance.CurrentScene.GetGameObject( collisionRequest.Item1 ).GetGlobalPosition().Y;
+				BoxCollision2DComponentData boxCol1 = Scene.GetComponentData<BoxCollision2DComponentData>( collisionRequest.Item1 );
+				Rectangle rect1 = new Rectangle( 0, 0, boxCol1.Width, boxCol1.Height );
+				rect1.X = (int)Game.Instance.CurrentScene.GetGameObject( collisionRequest.Item1 ).GetGlobalPosition().X - rect1.Width / 2;
+				rect1.Y = (int)Game.Instance.CurrentScene.GetGameObject( collisionRequest.Item1 ).GetGlobalPosition().Y - rect1.Height / 2;
 
-				Rectangle rect2 = Scene.GetComponentData<BoxCollision2DComponentData>( collisionRequest.Item2 ).rectangle;
-				rect2.X += (int)Game.Instance.CurrentScene.GetGameObject( collisionRequest.Item2 ).GetGlobalPosition().X;
-				rect2.Y += (int)Game.Instance.CurrentScene.GetGameObject( collisionRequest.Item2 ).GetGlobalPosition().Y;
+				BoxCollision2DComponentData boxCol2 = Scene.GetComponentData<BoxCollision2DComponentData>( collisionRequest.Item2 );
+				Rectangle rect2 = new Rectangle( 0, 0, boxCol2.Width, boxCol2.Height );
+				rect2.X = (int)Game.Instance.CurrentScene.GetGameObject( collisionRequest.Item2 ).GetGlobalPosition().X - rect2.Width / 2;
+				rect2.Y = (int)Game.Instance.CurrentScene.GetGameObject( collisionRequest.Item2 ).GetGlobalPosition().Y - rect2.Height / 2;
 
 				bool collides = rect1.Intersects( rect2 );
 

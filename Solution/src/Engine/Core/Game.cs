@@ -39,6 +39,7 @@ namespace Blue
 		{
 			Log.Message( "BlueEngine Game Started!" );
 			base.Initialize();
+			GameRenderer.SetWindowSize( 800, 400 );
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
 			{
 				ManagedSystem system = entry.Value;
