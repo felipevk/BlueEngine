@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
+
+using Blue.Core;
 
 namespace Blue.ECS
 {
 	public class SpriteComponentData : ComponentData
 	{
-		public String name = "";
+		public String assetName = "";
 		public Color color = Color.White;
 		public Color drawDebugColor = Color.Red;
 		public bool isVisible = true;
@@ -16,32 +17,12 @@ namespace Blue.ECS
 
 	public class SpriteComponentSystem : ComponentSystem
 	{
-		private static Dictionary<String, Texture2D> Textures
-		{ get; set; } = new Dictionary<String, Texture2D>();
-
-		private static Dictionary<String, String> GameObjectTextureMap
-		{ get; set; } = new Dictionary<String, String>();
-
-		public override void LoadContent()
-		{
-			Action<String, ComponentData> loadTexture = ( gameObjectId, data ) =>
-			{
-				SpriteComponentData spriteData = data as SpriteComponentData;
-				if ( !Textures.ContainsKey(spriteData.name) && !String.IsNullOrEmpty( spriteData.name ) )
-				{
-					Textures.Add( spriteData.name, Game.Instance.Content.Load<Texture2D>( spriteData.name ) );
-				}
-				GameObjectTextureMap.Add( gameObjectId , spriteData.name );
-			};
-			ForEachData( loadTexture );
-		}
-
 		protected override void Render( String gameObjectId, ComponentData data )
 		{
 			SpriteComponentData spriteData = data as SpriteComponentData;
-			if ( !String.IsNullOrEmpty(spriteData.name) )
+			if ( !String.IsNullOrEmpty(spriteData.assetName) && Game.Instance.AssetManager.HasAsset<SpriteAsset>( spriteData.assetName ) )
 			{
-				Texture2D spriteTexture = Textures[GameObjectTextureMap[gameObjectId]];
+				Texture2D spriteTexture = Game.Instance.AssetManager.GetAsset<SpriteAsset>( spriteData.assetName ).Texture2D;
 				Vector3 spritePos = scene.GetGameObject( gameObjectId ).GetGlobalPosition();
 				spritePos.X -= spriteTexture.Width / 2;
 				spritePos.Y -= spriteTexture.Height / 2;

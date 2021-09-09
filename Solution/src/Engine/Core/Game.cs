@@ -17,6 +17,9 @@ namespace Blue
 		public Renderer GameRenderer
 		{ get; }
 
+		public AssetManager AssetManager
+		{ get; }
+
 		private static Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
 
 		public static void Run<T>()
@@ -30,6 +33,7 @@ namespace Blue
 		{
 			Instance = this;
 			GameRenderer = new Renderer();
+			AssetManager = new AssetManager();
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
 			RegisterManagedSystems();
@@ -50,6 +54,10 @@ namespace Blue
 
 		protected override void LoadContent()
 		{
+			AssetManager.RegisterAssetType<SpriteAsset>();
+			AssetManager.RegisterAssetType<SoundEffectAsset>();
+			AssetManager.RegisterAssetType<FontAsset>();
+
 			GameRenderer.LoadContent();
 			CurrentScene.LoadContent();
 		}

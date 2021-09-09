@@ -1,13 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
+
+using Blue.Core;
 
 namespace Blue.ECS
 {
 	public class SoundComponentData : ComponentData
 	{
-		public String name = "";
+		public String assetName = "";
 		public float volume = 1.0f;
 		public float pitch = 0.0f;
 		public float pan = 0.0f;
@@ -16,24 +17,8 @@ namespace Blue.ECS
 
 	public class SoundComponentSystem : ComponentSystem
 	{
-		private static Dictionary<String, SoundEffect> SoundEffects
-		{ get; set; } = new Dictionary<String, SoundEffect>();
-
 		private static Dictionary<String, SoundEffectInstance> GameObjectSoundEffectInstanceMap
 		{ get; set; } = new Dictionary<String, SoundEffectInstance>();
-
-		public override void LoadContent()
-		{
-			Action<String, ComponentData> loadSoundEffect = ( gameObjectId, data ) =>
-			{
-				SoundComponentData soundData = data as SoundComponentData;
-				if ( !SoundEffects.ContainsKey( soundData.name ) )
-				{
-					SoundEffects.Add( soundData.name, Game.Instance.Content.Load<SoundEffect>( soundData.name ) );
-				}
-			};
-			ForEachData( loadSoundEffect );
-		}
 
 		protected override void Update( String gameObjectId, ComponentData data )
 		{
@@ -56,10 +41,15 @@ namespace Blue.ECS
 			{
 				soundEffectInstance = GameObjectSoundEffectInstanceMap[gameObjectId];
 			}
+			else if( Game.Instance.AssetManager.HasAsset<SoundEffectAsset>( data.assetName ) )
+			{
+				soundEffectInstance = Game.Instance.AssetManager.GetAsset<SoundEffectAsset>( data.assetName ).SoundEffect.CreateInstance();
+				GameObjectSoundEffectInstanceMap.Add( gameObjectId, soundEffectInstance );
+			}
 			else
 			{
-				soundEffectInstance = SoundEffects[data.name].CreateInstance();
-				GameObjectSoundEffectInstanceMap.Add( gameObjectId, soundEffectInstance );
+				// Assert
+				return null;
 			}
 
 			soundEffectInstance.Volume = data.volume;

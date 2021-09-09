@@ -33,9 +33,13 @@ public static class Program
 		protected override void LoadContent()
 		{
 			base.LoadContent();
+
+			AssetManager.AddAsset<SpriteAsset>( "ball" );
+			AssetManager.AddAsset<SoundEffectAsset>( "pop" );
+			AssetManager.AddAsset<FontAsset>( "PixeloidSans" );
 		}
 	}
-	public class MainScene : Blue.ECS.Scene
+	public class MainScene : Scene
 	{
 		protected override void RegisterComponents()
 		{
@@ -59,18 +63,18 @@ public static class Program
 			CreateComponentData<LifetimeComponentData>( ball1.Id ).Life = 400;
 			CreateComponentData<LifetimeComponentData>( ball2.Id ).Life = 0;
 
-			CreateComponentData<SoundComponentData>( ball1.Id ).name = "pop";
-			CreateComponentData<SoundComponentData>( ball2.Id ).name = "pop";
+			CreateComponentData<SoundComponentData>( ball1.Id ).assetName = "pop";
+			CreateComponentData<SoundComponentData>( ball2.Id ).assetName = "pop";
 
 			ball1.Transform.Position = new Vector3( 200, 0, 0 );
 
 			//SpriteComponentData was added from LifetimeComponentData
 			SpriteComponentData spriteBall1 = GetComponentData<SpriteComponentData>( ball1.Id );
-			spriteBall1.name = "ball";
+			spriteBall1.assetName = "ball";
 			spriteBall1.drawDebug = true;
 
 			TextComponentData ball1Text = CreateComponentData<TextComponentData>( ball1.Id );
-			ball1Text.fontName = "PixeloidSans";
+			ball1Text.assetName = "PixeloidSans";
 			ball1Text.text = "Hello World!";
 
 			BoxCollision2DComponentData ball1Collider = CreateComponentData<BoxCollision2DComponentData>( ball1.Id );
@@ -82,7 +86,7 @@ public static class Program
 
 			//SpriteComponentData was added from LifetimeComponentData
 			SpriteComponentData spriteBall2 = GetComponentData<SpriteComponentData>( ball2.Id );
-			spriteBall2.name = "ball";
+			spriteBall2.assetName = "ball";
 			spriteBall2.color = Color.Yellow;
 
 			BoxCollision2DComponentData ball2Collider = CreateComponentData<BoxCollision2DComponentData>( ball2.Id );
@@ -91,13 +95,13 @@ public static class Program
 			ball2Collider.Height = 100;
 
 			TextComponentData ball2Text = CreateComponentData<TextComponentData>( ball2.Id );
-			ball2Text.fontName = "PixeloidSans";
+			ball2Text.assetName = "PixeloidSans";
 			ball2Text.text = "In Different Colors";
 			ball2Text.color = Color.Green;
 
 			ball3.Transform.Position = new Vector3( 10, 30, 0 );
 			SpriteComponentData spriteBall3 = CreateComponentData<SpriteComponentData>( ball3.Id );
-			spriteBall3.name = "ball";
+			spriteBall3.assetName = "ball";
 
 			BoxCollision2DComponentData ball3Collider = CreateComponentData<BoxCollision2DComponentData>( ball3.Id );
 			ball3Collider.drawDebug = true;

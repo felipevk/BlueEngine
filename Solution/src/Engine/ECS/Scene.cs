@@ -39,11 +39,6 @@ namespace Blue.ECS
 
 		public virtual void LoadContent()
 		{
-			foreach ( KeyValuePair<String, ComponentSystem> entry in m_componentSystems )
-			{
-				ComponentSystem system = entry.Value;
-				system.LoadContent();
-			}
 		}
 
 		protected virtual void RegisterManagedSystems()
