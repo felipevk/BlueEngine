@@ -14,12 +14,8 @@ namespace Blue
 			public Vector2 position;
 			public Color color;
 
-			public SpriteDrawCall( Texture2D textureIn, Vector2 positionIn, Color colorIn )
-			{
-				texture = textureIn;
-				position = positionIn;
-				color = colorIn;
-			}
+			public SpriteDrawCall( Texture2D textureIn, Vector2 positionIn, Color colorIn ) 
+				=> (texture, position, color) = (textureIn, positionIn, colorIn);
 		}
 
 		struct RectangleDrawCall
@@ -29,11 +25,7 @@ namespace Blue
 			public bool isFilled;
 
 			public RectangleDrawCall( Rectangle rectIn, Color colorIn, bool isFilledIn )
-			{
-				rect = rectIn;
-				color = colorIn;
-				isFilled = isFilledIn;
-			}
+				=> (rect, color, isFilled) = (rectIn, colorIn, isFilledIn);
 		}
 
 		struct TextDrawCall
@@ -44,12 +36,7 @@ namespace Blue
 			public Color color;
 
 			public TextDrawCall( SpriteFont fontIn, String textIn, Vector2 positionIn, Color colorIn )
-			{
-				font = fontIn;
-				text = textIn;
-				position = positionIn;
-				color = colorIn;
-			}
+				=> (font, text, position, color) = (fontIn, textIn, positionIn, colorIn);
 		}
 
 		protected GraphicsDeviceManager _graphics;

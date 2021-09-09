@@ -63,7 +63,9 @@ public static class Program
 			CreateComponentData<SoundComponentData>( ball2.Id ).name = "pop";
 
 			ball1.Transform.Position = new Vector3( 200, 0, 0 );
-			SpriteComponentData spriteBall1 = CreateComponentData<SpriteComponentData>( ball1.Id );
+
+			//SpriteComponentData was added from LifetimeComponentData
+			SpriteComponentData spriteBall1 = GetComponentData<SpriteComponentData>( ball1.Id );
 			spriteBall1.name = "ball";
 			spriteBall1.drawDebug = true;
 
@@ -77,7 +79,9 @@ public static class Program
 			ball1Collider.Height = 40;
 
 			ball2.Transform.Position = new Vector3( 400, 200, 0 );
-			SpriteComponentData spriteBall2 = CreateComponentData<SpriteComponentData>( ball2.Id );
+
+			//SpriteComponentData was added from LifetimeComponentData
+			SpriteComponentData spriteBall2 = GetComponentData<SpriteComponentData>( ball2.Id );
 			spriteBall2.name = "ball";
 			spriteBall2.color = Color.Yellow;
 

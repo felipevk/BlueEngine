@@ -133,6 +133,23 @@ namespace Blue.ECS
 		public static T CreateComponentData<T>( String gameObjectId )
 			where T : ComponentData, new()
 		{
+			if ( HasComponentData<T>( gameObjectId ) )
+				return GetComponentData<T>( gameObjectId );
+
+			Attribute[] attrs = Attribute.GetCustomAttributes( typeof( T ) );
+			foreach ( Attribute attr in attrs )
+			{
+				if ( attr is RequiresComponentData )
+				{
+					RequiresComponentData reqComp = (RequiresComponentData)attr;
+					String reqSystemName = m_dataSystemMap[reqComp.required.FullName.ToString()];
+					if ( !m_componentSystems[reqSystemName].Data.ContainsKey( gameObjectId ) )
+					{
+						m_componentSystems[reqSystemName].Data.Add( gameObjectId, (ComponentData)Activator.CreateInstance( reqComp.required ) );
+					}
+				}
+			}
+
 			T newComponentData = new T();
 
 			String systemName = m_dataSystemMap[typeof( T ).ToString()];

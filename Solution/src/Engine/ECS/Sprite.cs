@@ -27,7 +27,7 @@ namespace Blue.ECS
 			Action<String, ComponentData> loadTexture = ( gameObjectId, data ) =>
 			{
 				SpriteComponentData spriteData = data as SpriteComponentData;
-				if ( !Textures.ContainsKey(spriteData.name) )
+				if ( !Textures.ContainsKey(spriteData.name) && !String.IsNullOrEmpty( spriteData.name ) )
 				{
 					Textures.Add( spriteData.name, Game.Instance.Content.Load<Texture2D>( spriteData.name ) );
 				}

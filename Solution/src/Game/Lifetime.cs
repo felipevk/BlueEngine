@@ -5,6 +5,7 @@ using Blue.Core;
 using Blue.ECS;
 using Microsoft.Xna.Framework;
 
+[RequiresComponentData( typeof( SpriteComponentData ) )]
 public class LifetimeComponentData : ComponentData
 {
 	public int Life
