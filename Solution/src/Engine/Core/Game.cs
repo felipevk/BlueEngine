@@ -20,6 +20,12 @@ namespace Blue
 		public AssetManager AssetManager
 		{ get; }
 
+		public int WindowWidth
+		{ get; set; } = 800;
+
+		public int WindowHeight
+		{ get; set; } = 400;
+
 		private static Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
 
 		public static void Run<T>()
@@ -43,7 +49,7 @@ namespace Blue
 		{
 			Log.Message( "BlueEngine Game Started!" );
 			base.Initialize();
-			GameRenderer.SetWindowSize( 800, 400 );
+			GameRenderer.SetWindowSize( WindowWidth, WindowHeight );
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
 			{
 				ManagedSystem system = entry.Value;
