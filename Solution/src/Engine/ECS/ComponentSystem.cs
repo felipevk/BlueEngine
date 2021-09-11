@@ -5,9 +5,6 @@ namespace Blue.ECS
 {
 	public abstract class ComponentSystem : ManagedSystem
 	{
-		public Scene scene
-		{ get; set; }
-
 		public Dictionary<String, ComponentData> Data
 		{ get; set; } = new Dictionary<string, ComponentData>();
 

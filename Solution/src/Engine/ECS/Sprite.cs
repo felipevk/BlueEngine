@@ -23,7 +23,7 @@ namespace Blue.ECS
 			if ( !String.IsNullOrEmpty(spriteData.assetName) && Game.Instance.AssetManager.HasAsset<SpriteAsset>( spriteData.assetName ) )
 			{
 				Texture2D spriteTexture = Game.Instance.AssetManager.GetAsset<SpriteAsset>( spriteData.assetName ).Texture2D;
-				Vector3 spritePos = scene.GetGameObject( gameObjectId ).GetGlobalPosition();
+				Vector3 spritePos = GetGameObject( gameObjectId ).GetGlobalPosition();
 				spritePos.X -= spriteTexture.Width / 2;
 				spritePos.Y -= spriteTexture.Height / 2;
 				if ( spriteData.isVisible )

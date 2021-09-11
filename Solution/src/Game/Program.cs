@@ -52,10 +52,10 @@ public static class Program
 		{
 			base.RegisterGameObjects();
 
-			GameObject player = RegisterGameObject( "Player" );
-			GameObject ball1 = RegisterGameObject( "Ball1" );
-			GameObject ball2 = RegisterGameObject( "Ball2" );
-			GameObject ball3 = RegisterGameObject( "Ball3" );
+			GameObject player = CreateGameObject( "Player" );
+			GameObject ball1 = CreateGameObject( "Ball1" );
+			GameObject ball2 = CreateGameObject( "Ball2" );
+			GameObject ball3 = CreateGameObject( "Ball3" );
 
 			ball1.AddChild( ball3 );
 

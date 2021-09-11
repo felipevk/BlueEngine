@@ -6,9 +6,9 @@ namespace Blue.ECS
 	public class Scene
 	{
 		private Dictionary<String, GameObject> m_gameObjects = new Dictionary<string, GameObject>();
-		private static Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
-		private static Dictionary<String, ComponentSystem> m_componentSystems = new Dictionary<string, ComponentSystem>();
-		private static Dictionary<String, String> m_dataSystemMap = new Dictionary<string, String>();
+		private Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
+		private Dictionary<String, ComponentSystem> m_componentSystems = new Dictionary<string, ComponentSystem>();
+		private Dictionary<String, String> m_dataSystemMap = new Dictionary<string, String>();
 
 		public Scene()
 		{
@@ -63,13 +63,13 @@ namespace Blue.ECS
 			}
 		}
 
-		public static bool HasManagedSystem<T>()
+		public bool HasManagedSystem<T>()
 			where T : ManagedSystem
 		{
 			return m_managedSystems.ContainsKey( typeof( T ).ToString() );
 		}
 
-		public static T GetManagedSystem<T>()
+		public T GetManagedSystem<T>()
 			where T : ManagedSystem
 		{
 			if ( HasManagedSystem<T>() )
@@ -88,7 +88,6 @@ namespace Blue.ECS
 			where U : ComponentData
 		{
 			T system = new T();
-			system.scene = this;
 			if ( !m_componentSystems.ContainsKey( typeof( T ).ToString() ) )
 			{
 				m_componentSystems.Add( typeof( T ).ToString(), system );
@@ -104,7 +103,7 @@ namespace Blue.ECS
 		{
 		}
 
-		protected GameObject RegisterGameObject( String name )
+		public GameObject CreateGameObject( String name )
 		{
 			GameObject newGameObject = new GameObject( name );
 			m_gameObjects.Add( newGameObject.Id, newGameObject );
@@ -125,7 +124,7 @@ namespace Blue.ECS
 			}
 		}
 
-		public static T CreateComponentData<T>( String gameObjectId )
+		public T CreateComponentData<T>( String gameObjectId )
 			where T : ComponentData, new()
 		{
 			if ( HasComponentData<T>( gameObjectId ) )
@@ -153,14 +152,14 @@ namespace Blue.ECS
 			return newComponentData;
 		}
 
-		public static bool HasComponentData<T>( String gameObjectId )
+		public bool HasComponentData<T>( String gameObjectId )
 			where T : ComponentData
 		{
 			String systemName = m_dataSystemMap[typeof( T ).ToString()];
 			return m_componentSystems[systemName].Data.ContainsKey( gameObjectId );
 		}
 
-		public static T GetComponentData<T>( String gameObjectId )
+		public T GetComponentData<T>( String gameObjectId )
 			where T : ComponentData
 		{
 			String systemName = m_dataSystemMap[typeof( T ).ToString()];
@@ -175,7 +174,7 @@ namespace Blue.ECS
 			}
 		}
 
-		public static void RemoveComponentData<T>( String gameObjectId )
+		public void RemoveComponentData<T>( String gameObjectId )
 			where T : ComponentData
 		{
 			String componentName = m_dataSystemMap[typeof( T ).ToString()];

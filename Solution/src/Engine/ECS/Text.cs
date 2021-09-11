@@ -26,7 +26,7 @@ namespace Blue.ECS
 				 Game.Instance.AssetManager.HasAsset<FontAsset>( textData.assetName ) )
 			{
 				SpriteFont font = Game.Instance.AssetManager.GetAsset<FontAsset>( textData.assetName ).SpriteFont;
-				Vector3 textPos = scene.GetGameObject( gameObjectId ).GetGlobalPosition();
+				Vector3 textPos = GetGameObject( gameObjectId ).GetGlobalPosition();
 				Game.Instance.GameRenderer.PrepareToDrawText( font, textData.text, new Vector2( textPos.X, textPos.Y ), textData.color );
 			}
 		}

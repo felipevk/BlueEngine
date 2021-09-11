@@ -18,7 +18,7 @@ public class LifetimeComponentSystem : ComponentSystem
 		LifetimeComponentData lifetimeData = data as LifetimeComponentData;
 		if ( IsAlive( lifetimeData ) )
 		{
-			GameObject gameObj = scene.GetGameObject( gameObjectId );
+			GameObject gameObj = GetGameObject( gameObjectId );
 			Log.Message( "Entity " + gameObj.Name + " is alive" );
 		}
 	}
@@ -29,7 +29,7 @@ public class LifetimeComponentSystem : ComponentSystem
 		if ( IsAlive( lifetimeData ) )
 		{
 			lifetimeData.Life -= 1;
-			GameObject gameObj = scene.GetGameObject( gameObjectId );
+			GameObject gameObj = GetGameObject( gameObjectId );
 			Vector3 position = gameObj.Transform.Position;
 			position.X += 2;
 			position.Y += 2;
@@ -39,14 +39,14 @@ public class LifetimeComponentSystem : ComponentSystem
 			if ( !IsAlive( lifetimeData ) )
 			{
 				Log.Message( "Entity " + gameObj.Name + " is dead" );
-				if ( Scene.HasComponentData<SpriteComponentData>( gameObjectId ) )
+				if ( HasComponentData<SpriteComponentData>( gameObjectId ) )
 				{
-					Scene.GetComponentData<SpriteComponentData>( gameObjectId ).drawDebugColor = Color.Yellow;
+					GetComponentData<SpriteComponentData>( gameObjectId ).drawDebugColor = Color.Yellow;
 				}
 
-				if ( Scene.HasComponentData<SoundComponentData>( gameObjectId ) )
+				if ( HasComponentData<SoundComponentData>( gameObjectId ) )
 				{
-					SoundComponentData soundData = Scene.GetComponentData<SoundComponentData>( gameObjectId );
+					SoundComponentData soundData = GetComponentData<SoundComponentData>( gameObjectId );
 					SoundComponentSystem.Play( gameObjectId, soundData );
 				}
 			}
