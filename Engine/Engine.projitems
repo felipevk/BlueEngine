@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6efba8a9-a407-4029-bdd0-651d22a87386</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Engine</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)src\Core\AssetManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Core\Game.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Core\Input.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Core\Log.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Core\Renderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Core\Time.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\Core\Transform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\Collision.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\ComponentData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\ComponentSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\GameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\ManagedSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\RequiresComponentData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\Scene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\Sound.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\Text.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+  </ItemGroup>
+</Project>
