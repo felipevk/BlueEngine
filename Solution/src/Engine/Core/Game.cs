@@ -76,6 +76,8 @@ namespace Blue
 		{
 			base.Update(gameTime);
 
+			Time.DeltaTime = gameTime.ElapsedGameTime.Milliseconds / 1000f;
+
 			Input.Update();
 
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )

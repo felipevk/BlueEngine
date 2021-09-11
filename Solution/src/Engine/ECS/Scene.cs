@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Blue.ECS
 {
 	public class Scene
 	{
+		public Color BackgroundColor
+		{ get; set; } = Color.CornflowerBlue;
+
 		private Dictionary<String, GameObject> m_gameObjects = new Dictionary<string, GameObject>();
 		private Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
 		private Dictionary<String, ComponentSystem> m_componentSystems = new Dictionary<string, ComponentSystem>();
@@ -23,7 +27,7 @@ namespace Blue.ECS
 			RegisterGameObjects();
 		}
 
-		public void Start()
+		public virtual void Start()
 		{
 			foreach ( KeyValuePair<String, ManagedSystem> entry in m_managedSystems )
 			{

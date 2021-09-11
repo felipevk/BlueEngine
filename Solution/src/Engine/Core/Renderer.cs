@@ -65,7 +65,7 @@ namespace Blue
 
 		public void Render( GameTime gameTime )
 		{
-			Game.Instance.GraphicsDevice.Clear( Color.CornflowerBlue );
+			Game.Instance.GraphicsDevice.Clear( Game.Instance.CurrentScene.BackgroundColor );
 
 			Game.Instance.CurrentScene.Render();
 

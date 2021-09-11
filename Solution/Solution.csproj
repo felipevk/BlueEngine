@@ -94,6 +94,7 @@
     <Compile Include="src\Engine\Core\Input.cs" />
     <Compile Include="src\Engine\Core\Log.cs" />
     <Compile Include="src\Engine\Core\Renderer.cs" />
+    <Compile Include="src\Engine\Core\Time.cs" />
     <Compile Include="src\Engine\Core\Transform.cs" />
     <Compile Include="src\Engine\ECS\Collision.cs" />
     <Compile Include="src\Engine\ECS\ComponentData.cs" />
@@ -106,7 +107,9 @@
     <Compile Include="src\Engine\ECS\Sprite.cs" />
     <Compile Include="src\Engine\ECS\Text.cs" />
     <Compile Include="src\Game\Lifetime.cs" />
-    <Compile Include="src\Game\Program.cs" />
+    <Compile Include="src\Game\BlueSpace\PlayerController.cs" />
+    <Compile Include="src\Game\BlueSpace\PositionConstrain.cs" />
+    <Compile Include="src\Game\BlueSpace\Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
