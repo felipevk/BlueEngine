@@ -28,6 +28,18 @@ namespace Blue
 				=> (rect, color, isFilled) = (rectIn, colorIn, isFilledIn);
 		}
 
+		struct CircleDrawCall
+		{
+			public Vector2 center;
+			public float radius;
+			public int sides;
+			public Color color;
+			public bool isFilled;
+
+			public CircleDrawCall( Vector2 centerIn, float radiusIn, int sidesIn, Color colorIn, bool isFilledIn )
+				=> (center, radius, sides, color, isFilled) = (centerIn, radiusIn, sidesIn, colorIn, isFilledIn);
+		}
+
 		struct TextDrawCall
 		{
 			public SpriteFont font;
@@ -44,6 +56,7 @@ namespace Blue
 
 		private List<SpriteDrawCall> _spriteDrawCalls = new List<SpriteDrawCall>();
 		private List<RectangleDrawCall> _rectangleDrawCalls = new List<RectangleDrawCall>();
+		private List<CircleDrawCall> _circleDrawCalls = new List<CircleDrawCall>();
 		private List<TextDrawCall> _textDrawCalls = new List<TextDrawCall>();
 
 		public Renderer()
@@ -81,6 +94,10 @@ namespace Blue
 				else
 					Primitives2D.DrawRectangle( _spriteBatch, rectangleDrawCall.rect, rectangleDrawCall.color );
 			}
+			foreach ( CircleDrawCall circleDrawCall in _circleDrawCalls )
+			{
+					Primitives2D.DrawCircle( _spriteBatch, circleDrawCall.center, circleDrawCall.radius, circleDrawCall.sides, circleDrawCall.color );
+			}
 			foreach ( TextDrawCall textDrawCall in _textDrawCalls )
 			{
 				_spriteBatch.DrawString( textDrawCall.font, textDrawCall.text, textDrawCall.position, textDrawCall.color );
@@ -99,6 +116,11 @@ namespace Blue
 		public void PrepareToDrawRectangle( Rectangle rect, Color color, bool isFilled )
 		{
 			_rectangleDrawCalls.Add( new RectangleDrawCall( rect, color, isFilled ) );
+		}
+
+		public void PrepareToDrawCircle( Vector2 center, float radius, int sides, Color color, bool isFilled )
+		{
+			_circleDrawCalls.Add( new CircleDrawCall( center, radius, sides, color, isFilled ) );
 		}
 
 		public void PrepareToDrawText( SpriteFont font, String text, Vector2 position, Color color )

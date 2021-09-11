@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)src\ECS\ComponentSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\ECS\GameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\ECS\ManagedSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\ECS\ParticleSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\ECS\RequiresComponentData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\ECS\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)src\ECS\Sound.cs" />

@@ -19,6 +19,7 @@ namespace Blue.ECS
 			// Register Core Components
 			RegisterComponent<SpriteComponentSystem, SpriteComponentData>();
 			RegisterComponent<TextComponentSystem, TextComponentData>();
+			RegisterComponent<ParticleComponentSystem, ParticleComponentData>();
 			RegisterComponent<BoxCollision2DComponentSystem, BoxCollision2DComponentData>();
 			RegisterComponent<SoundComponentSystem, SoundComponentData>();
 
