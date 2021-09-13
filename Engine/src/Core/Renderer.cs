@@ -105,6 +105,7 @@ namespace Blue
 			_spriteBatch.End();
 			_spriteDrawCalls.Clear();
 			_rectangleDrawCalls.Clear();
+			_circleDrawCalls.Clear();
 			_textDrawCalls.Clear();
 		}
 
