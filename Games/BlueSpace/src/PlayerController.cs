@@ -6,10 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace BlueSpace
 {
+	[RequiresComponentData(typeof(SpriteComponentData))]
 	public class PlayerControllerComponentData : ComponentData
 	{
-		public Vector2 direction
-		{ get; set; } = Vector2.Zero;
+		public Vector2 direction = Vector2.Zero;
+		public String regularSpriteName = "player";
+		public String moveLeftSpriteName = "playerLeft";
+		public String moveRightSpriteName = "playerRight";
 	}
 
 	public class PlayerControllerComponentSystem : ComponentSystem
@@ -21,13 +24,17 @@ namespace BlueSpace
 
 			Vector2 direction = playerControllerData.direction;
 
+			String selectedSprite = playerControllerData.regularSpriteName;
+
 			if ( Input.IsButtonDown( "right", 0 ) )
 			{
 				direction.X = 1;
+				selectedSprite = playerControllerData.moveRightSpriteName;
 			}
 			else if ( Input.IsButtonDown( "left", 0 ) )
 			{
 				direction.X = -1;
+				selectedSprite = playerControllerData.moveLeftSpriteName;
 			}
 			else
 			{
@@ -55,6 +62,12 @@ namespace BlueSpace
 			playerPos.Y += playerControllerData.direction.Y * Speed * Time.DeltaTime;
 
 			player.Transform.Position = playerPos;
+
+			SpriteComponentData playerSprite = GetComponentData<SpriteComponentData>( gameObjectId );
+			if ( playerSprite.assetName != selectedSprite )
+			{
+				playerSprite.assetName = selectedSprite;
+			}
 		}
 	} 
 }

@@ -49,8 +49,18 @@ namespace BlueSpace
 			{
 				base.LoadContent();
 
-				AssetManager.AddAsset<SpriteAsset>( "ball" );
+				AssetManager.AddAsset<SpriteAsset>( "player" );
+				AssetManager.AddAsset<SpriteAsset>( "playerLeft" );
+				AssetManager.AddAsset<SpriteAsset>( "playerRight" );
+				AssetManager.AddAsset<SpriteAsset>( "meteorBig" );
+				AssetManager.AddAsset<SpriteAsset>( "meteorSmall" );
+				AssetManager.AddAsset<SpriteAsset>( "laserGreen" );
+				AssetManager.AddAsset<SpriteAsset>( "laserGreenShot" );
+				AssetManager.AddAsset<SpriteAsset>( "laserRed" );
+				AssetManager.AddAsset<SpriteAsset>( "laserRedShot" );
 				AssetManager.AddAsset<FontAsset>( "PixeloidSans" );
+				AssetManager.AddAsset<SoundEffectAsset>( "pop" );
+				AssetManager.AddAsset<SoundEffectAsset>( "laserShoot" );
 			}
 		}
 		public class MainScene : Scene
@@ -67,6 +77,8 @@ namespace BlueSpace
 
 				RegisterComponent<PositionConstrainComponentSystem, PositionConstrainComponentData>();
 				RegisterComponent<PlayerControllerComponentSystem, PlayerControllerComponentData>();
+				RegisterComponent<PlayerWeaponComponentSystem, PlayerWeaponComponentData>();
+				RegisterComponent<ProjectileComponentSystem, ProjectileComponentData>();
 			}
 
 			protected override void RegisterGameObjects()
@@ -75,25 +87,29 @@ namespace BlueSpace
 
 				GameObject player = CreateGameObject( "Player" );
 				CreateComponentData<PositionConstrainComponentData>( player.Id ).useWindowBounds = true;
-				CreateComponentData<SpriteComponentData>( player.Id ).assetName = "ball";
+				CreateComponentData<SpriteComponentData>( player.Id ).assetName = "player";
 				CreateComponentData<PlayerControllerComponentData>( player.Id );
 
-				GameObject stars = CreateGameObject( "Stars" );
-				stars.Transform.Position = new Vector3( 600, 200, 0 );
-				ParticleComponentData starsParticles = CreateComponentData<ParticleComponentData>( stars.Id );
-				starsParticles.emissorShape = ParticleSystemEmissorShape.Box;
-				starsParticles.squareShapeWidth = 100;
-				starsParticles.squareShapeHeight = 400;
-				starsParticles.lifetimeSeconds = 2f;
-				starsParticles.timeToEmit = new Interval( 0.1f, 0.5f );
-				starsParticles.lifetimeVariation = new Interval( 1f, 5f );
-				starsParticles.spriteAssetName = "ball";
-				starsParticles.directionVariationX = new Interval( -1f, -1f );
-				starsParticles.directionVariationY = new Interval( -0.2f, 0.2f );
-				starsParticles.particlesToEmitPerBurst = new Interval( 5f, 20f );
-				starsParticles.preloadParticles = 100;
-				starsParticles.speed = new Interval( 100, 500 );
-				starsParticles.drawDebug = true;
+				GameObject gun = CreateGameObject( "Gun" );
+				player.AddChild( gun );
+				CreateComponentData<PlayerWeaponComponentData>( gun.Id );
+
+				//GameObject stars = CreateGameObject( "Stars" );
+				//stars.Transform.Position = new Vector3( 600, 200, 0 );
+				//ParticleComponentData starsParticles = CreateComponentData<ParticleComponentData>( stars.Id );
+				//starsParticles.emissorShape = ParticleSystemEmissorShape.Box;
+				//starsParticles.squareShapeWidth = 100;
+				//starsParticles.squareShapeHeight = 400;
+				//starsParticles.lifetimeSeconds = 2f;
+				//starsParticles.timeToEmit = new Interval( 0.1f, 0.5f );
+				//starsParticles.lifetimeVariation = new Interval( 1f, 5f );
+				//starsParticles.spriteAssetName = "ball";
+				//starsParticles.directionVariationX = new Interval( -1f, -1f );
+				//starsParticles.directionVariationY = new Interval( -0.2f, 0.2f );
+				//starsParticles.particlesToEmitPerBurst = new Interval( 5f, 20f );
+				//starsParticles.preloadParticles = 100;
+				//starsParticles.speed = new Interval( 100, 500 );
+				//starsParticles.drawDebug = true;
 			}
 		};
 	} 

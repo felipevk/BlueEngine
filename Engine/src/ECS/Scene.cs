@@ -116,6 +116,21 @@ namespace Blue.ECS
 			return newGameObject;
 		}
 
+		public void DestroyGameObject( String name )
+		{
+			foreach ( var componentSystemKvp in m_componentSystems )
+			{
+				if ( componentSystemKvp.Value.Data.ContainsKey( name ) )
+				{
+					componentSystemKvp.Value.Data.Remove( name );
+				}
+			}
+
+			//TODO add individual component cleanup logic
+
+			m_gameObjects.Remove( name );
+		}
+
 		public GameObject GetGameObject( String uuid )
 		{
 			if ( m_gameObjects.ContainsKey( uuid ) )

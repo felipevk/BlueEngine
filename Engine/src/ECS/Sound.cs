@@ -60,6 +60,14 @@ namespace Blue.ECS
 			return soundEffectInstance;
 		}
 
+		public static void PlayOnce( String assetName, float volume = 1.0f )
+		{
+			SoundEffectInstance soundEffectInstance = Game.Instance.AssetManager.GetAsset<SoundEffectAsset>( assetName ).SoundEffect.CreateInstance();
+			soundEffectInstance.Volume = volume;
+
+			soundEffectInstance.Play();
+		}
+
 		public static void Play( String gameObjectId, SoundComponentData data )
 		{
 			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, data );

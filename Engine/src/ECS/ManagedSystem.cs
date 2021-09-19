@@ -17,6 +17,11 @@ namespace Blue.ECS
 			return Game.Instance.CurrentScene.CreateGameObject( name );
 		}
 
+		protected void DestroyGameObject( String name )
+		{
+			Game.Instance.CurrentScene.DestroyGameObject( name );
+		}
+
 		public GameObject GetGameObject( String uuid )
 		{
 			return Game.Instance.CurrentScene.GetGameObject( uuid );
