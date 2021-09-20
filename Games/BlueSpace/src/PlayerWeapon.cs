@@ -17,6 +17,7 @@ namespace BlueSpace
 		public float currentRechargeTime = 0;
 		public String input = "fire1";
 		public int playerIndex = 0;
+		public bool drawDebugProjectile = false;
 	}
 
 	public struct WeaponData
@@ -46,7 +47,7 @@ namespace BlueSpace
 			laser.damage = 5;
 			laser.projectiles = 1;
 			laser.rechargeTime = 0.1f;
-			laser.projectileSpeed = 20;
+			laser.projectileSpeed = 1000;
 			laser.projectileSprite = "laserRed";
 			laser.projectileHitSprite = "laserRedShot";
 			laser.shootSound = "laserShoot";
@@ -90,7 +91,7 @@ namespace BlueSpace
 				CreateComponentData<SpriteComponentData>( projectile.Id ).assetName = weaponData.projectileSprite;
 
 				BoxCollision2DComponentData collider = CreateComponentData<BoxCollision2DComponentData>( projectile.Id );
-				collider.drawDebug = true;
+				collider.drawDebug = playerWeaponData.drawDebugProjectile;
 				collider.Width = 15;
 				collider.Height = 40;
 
@@ -99,7 +100,6 @@ namespace BlueSpace
 				projectileInstanceData.damage = weaponData.damage;
 				projectileInstanceData.speed = weaponData.projectileSpeed;
 				projectileInstanceData.hitSound = weaponData.hitSound;
-				projectileInstanceData.hitSoundVolume = weaponData.hitSoundVolume;
 				projectileInstanceData.hitSprite = weaponData.projectileHitSprite;
 			}
 			playerWeaponData.currentRechargeTime = weaponData.rechargeTime;

@@ -90,6 +90,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Lifetime.cs" />
+    <Compile Include="src\Meteor.cs" />
+    <Compile Include="src\MeteorSpawner.cs" />
     <Compile Include="src\PlayerController.cs" />
     <Compile Include="src\PlayerWeapon.cs" />
     <Compile Include="src\PositionConstrain.cs" />

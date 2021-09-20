@@ -32,7 +32,7 @@ namespace Blue.ECS
 			Action<String, ComponentData> cleanAction = ( gameObjectId, data ) => Clean( gameObjectId, data );
 			ForEachData( cleanAction );
 		}
-		protected virtual void Clean( String gameObjectId, ComponentData data ) { }
+		public virtual void Clean( String gameObjectId, ComponentData data ) { }
 
 		public override void Update()
 		{

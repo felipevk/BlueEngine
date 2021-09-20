@@ -91,6 +91,18 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/meteorBig.png;meteorBig.png
 
+#begin ../Assets/meteorDestroy.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../Assets/meteorDestroy.wav;meteorDestroy.wav
+
+#begin ../Assets/meteorHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../Assets/meteorHit.wav;meteorHit.wav
+
 #begin ../Assets/meteorSmall.png
 /importer:TextureImporter
 /processor:TextureProcessor

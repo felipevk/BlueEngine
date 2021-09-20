@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Blue.Core;
 using Blue.ECS;
@@ -14,7 +13,6 @@ namespace BlueSpace
 		public int damage;
 		public String hitSprite;
 		public String hitSound;
-		public float hitSoundVolume;
 		public float speed;
 		public bool isHit = false;
 		public float hitLifetime;
@@ -29,7 +27,7 @@ namespace BlueSpace
 
 			if ( projectileData.isHit )
 			{
-				if ( projectileData.currentHitLifetime > 0f )
+				if ( projectileData.currentHitLifetime < 0f )
 				{
 					DestroyGameObject( gameObjectId );
 				}
@@ -42,7 +40,7 @@ namespace BlueSpace
 			{
 				GameObject gameObj = GetGameObject( gameObjectId );
 				Vector3 position = gameObj.Transform.Position;
-				position += Vector3.Down * projectileData.speed;
+				position += Vector3.Down * Time.DeltaTime * projectileData.speed;
 
 				gameObj.Transform.Position = position;
 			}
@@ -58,9 +56,7 @@ namespace BlueSpace
 			projectileData.isHit = true;
 			projectileData.currentHitLifetime = projectileData.hitLifetime;
 			GetComponentData<SpriteComponentData>( gameObjectId ).assetName = projectileData.hitSprite;
-			SoundComponentSystem.PlayOnce( projectileData.hitSound, projectileData.hitSoundVolume );
 			GetComponentData<BoxCollision2DComponentData>( gameObjectId ).enabled = false;
-			// TODO do damage if meteor
 		}
 	}
 }

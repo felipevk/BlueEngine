@@ -14,6 +14,8 @@ namespace Blue.ECS
 		private Dictionary<String, ComponentSystem> m_componentSystems = new Dictionary<string, ComponentSystem>();
 		private Dictionary<String, String> m_dataSystemMap = new Dictionary<string, String>();
 
+		private List<String> m_objectsToDestroy = new List<String>();
+
 		public Scene()
 		{
 			// Register Core Components
@@ -118,17 +120,13 @@ namespace Blue.ECS
 
 		public void DestroyGameObject( String name )
 		{
-			foreach ( var componentSystemKvp in m_componentSystems )
-			{
-				if ( componentSystemKvp.Value.Data.ContainsKey( name ) )
-				{
-					componentSystemKvp.Value.Data.Remove( name );
-				}
-			}
+			if ( !m_objectsToDestroy.Contains( name ) )
+				m_objectsToDestroy.Add( name );
+		}
 
-			//TODO add individual component cleanup logic
-
-			m_gameObjects.Remove( name );
+		public bool HasGameObject( String uuid )
+		{
+			return m_gameObjects.ContainsKey( uuid );
 		}
 
 		public GameObject GetGameObject( String uuid )
@@ -213,6 +211,8 @@ namespace Blue.ECS
 				ComponentSystem system = entry.Value;
 				system.Update();
 			}
+
+			DestroyGameObjects();
 		}
 
 		public void Render()
@@ -236,6 +236,25 @@ namespace Blue.ECS
 				ComponentSystem system = entry.Value;
 				system.ProcessCollisions( collisionGlobalState );
 			}
+		}
+
+		private void DestroyGameObjects()
+		{
+			foreach ( String objectToDestroy in m_objectsToDestroy )
+			{
+				foreach ( var componentSystemKvp in m_componentSystems )
+				{
+					if ( componentSystemKvp.Value.Data.ContainsKey( objectToDestroy ) )
+					{
+						ComponentData data = componentSystemKvp.Value.Data[objectToDestroy];
+						componentSystemKvp.Value.Clean( objectToDestroy, data );
+						componentSystemKvp.Value.Data.Remove( objectToDestroy );
+					}
+				}
+
+				m_gameObjects.Remove( objectToDestroy );
+			}
+			m_objectsToDestroy.Clear();
 		}
 	}
 }

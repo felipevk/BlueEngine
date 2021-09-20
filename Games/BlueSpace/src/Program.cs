@@ -24,6 +24,8 @@ namespace BlueSpace
 			protected override void Initialize()
 			{
 				CurrentScene = new MainScene();
+				WindowWidth = 800;
+				WindowHeight = 800;
 				base.Initialize();
 
 				Input.CreateInputGroup( "fire1" );
@@ -61,6 +63,8 @@ namespace BlueSpace
 				AssetManager.AddAsset<FontAsset>( "PixeloidSans" );
 				AssetManager.AddAsset<SoundEffectAsset>( "pop" );
 				AssetManager.AddAsset<SoundEffectAsset>( "laserShoot" );
+				AssetManager.AddAsset<SoundEffectAsset>( "meteorHit" );
+				AssetManager.AddAsset<SoundEffectAsset>( "meteorDestroy" );
 			}
 		}
 		public class MainScene : Scene
@@ -79,6 +83,8 @@ namespace BlueSpace
 				RegisterComponent<PlayerControllerComponentSystem, PlayerControllerComponentData>();
 				RegisterComponent<PlayerWeaponComponentSystem, PlayerWeaponComponentData>();
 				RegisterComponent<ProjectileComponentSystem, ProjectileComponentData>();
+				RegisterComponent<MeteorComponentSystem, MeteorComponentData>();
+				RegisterComponent<MeteorSpawnerComponentSystem, MeteorSpawnerComponentData>();
 			}
 
 			protected override void RegisterGameObjects()
@@ -92,7 +98,17 @@ namespace BlueSpace
 
 				GameObject gun = CreateGameObject( "Gun" );
 				player.AddChild( gun );
-				CreateComponentData<PlayerWeaponComponentData>( gun.Id );
+				CreateComponentData<PlayerWeaponComponentData>( gun.Id ).drawDebugProjectile = false;
+
+				GameObject meteorSpawner = CreateGameObject( "MeteorSpawner" );
+				MeteorSpawnerComponentData meteorSpawnerData = CreateComponentData<MeteorSpawnerComponentData>( meteorSpawner.Id );
+				meteorSpawnerData.timeToSpawn = new Interval(0f, 3f);
+				meteorSpawnerData.xPos = new Interval(0f, 800f);
+				meteorSpawnerData.yPos = -20f;
+				meteorSpawnerData.meteorsToSpawn = new Interval( 1f, 3f );
+				meteorSpawnerData.speed = new Interval( 100f, 400f );
+				meteorSpawnerData.senoidArc = new Interval( 50f, 300f );
+				meteorSpawnerData.drawDebug = false;
 
 				//GameObject stars = CreateGameObject( "Stars" );
 				//stars.Transform.Position = new Vector3( 600, 200, 0 );

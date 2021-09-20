@@ -35,6 +35,12 @@ namespace Blue.ECS
 			Collision2DManager.AddAABB2D( GetAABB( gameObjectId, boxCollision2DData ) );
 		}
 
+		public override void Clean( string gameObjectId, ComponentData data )
+		{
+			BoxCollision2DComponentData boxCollision2DData = data as BoxCollision2DComponentData;
+			Collision2DManager.RemoveAABB2D( gameObjectId );
+		}
+
 		protected override void Render( String gameObjectId, ComponentData data )
 		{
 			BoxCollision2DComponentData boxCollision2DData = data as BoxCollision2DComponentData;
@@ -217,7 +223,7 @@ namespace Blue.ECS
 
 		private static CollisionGlobalState _globalState = new CollisionGlobalState();
 
-		static List<AABB2D> _aabb2d = new List<AABB2D>();
+		static Dictionary<String, AABB2D> _aabb2d = new Dictionary<String, AABB2D>();
 
 		public struct AABB2DBound
 		{
@@ -240,7 +246,12 @@ namespace Blue.ECS
 
 		public static void AddAABB2D( AABB2D aabb )
 		{
-			_aabb2d.Add( aabb );
+			_aabb2d.Add( aabb.gameObjectId, aabb );
+		}
+
+		public static void RemoveAABB2D( String gameObjectId )
+		{
+			_aabb2d.Remove( gameObjectId );
 		}
 
 		public static void Update()
@@ -265,8 +276,9 @@ namespace Blue.ECS
 		private static List<Tuple<String, String>> GetCollisionRequests()
 		{
 			List<AABB2DBound> bounds = new List<AABB2DBound>();
-			foreach ( var aabb in _aabb2d )
+			foreach ( var kvp in _aabb2d )
 			{
+				AABB2D aabb = kvp.Value;
 				bounds.Add( new AABB2DBound( aabb.gameObjectId, aabb.min.X, BoundType.Min ) );
 				bounds.Add( new AABB2DBound( aabb.gameObjectId, aabb.max.X, BoundType.Max ) );
 			}
