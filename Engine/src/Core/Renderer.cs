@@ -82,7 +82,7 @@ namespace Blue
 
 			Game.Instance.CurrentScene.Render();
 
-			_spriteBatch.Begin();
+			_spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 			foreach ( SpriteDrawCall spriteDrawCall in _spriteDrawCalls )
 			{
 				_spriteBatch.Draw( spriteDrawCall.texture, spriteDrawCall.position, spriteDrawCall.color );
