@@ -11,6 +11,8 @@ namespace Blue.ECS
 		public String assetName = "";
 		public String text = "";
 		public Color color = Color.White;
+		public float scale = 1.0f;
+		public float rotation = 0.0f;
 		public bool isVisible = true;
 	}
 
@@ -27,7 +29,13 @@ namespace Blue.ECS
 			{
 				SpriteFont font = Game.Instance.AssetManager.GetAsset<FontAsset>( textData.assetName ).SpriteFont;
 				Vector3 textPos = GetGameObject( gameObjectId ).GetGlobalPosition();
-				Game.Instance.GameRenderer.PrepareToDrawText( font, textData.text, new Vector2( textPos.X, textPos.Y ), textData.color );
+				Game.Instance.GameRenderer.PrepareToDrawText(
+					font,
+					textData.text,
+					new Vector2( textPos.X, textPos.Y ),
+					textData.scale,
+					textData.rotation,
+					textData.color );
 			}
 		}
 	}

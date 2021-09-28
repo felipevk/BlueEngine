@@ -8,9 +8,9 @@ namespace Blue.Core
 		{ get; set; } = Vector3.Zero;
 
 		public Vector3 Scale
-		{ get; set; }
+		{ get; set; } = Vector3.One;
 
 		public Quaternion Rotation
-		{ get; set; }
+		{ get; set; } = Quaternion.Identity;
 	}
 }

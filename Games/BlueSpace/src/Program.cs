@@ -85,6 +85,11 @@ namespace BlueSpace
 				RegisterComponent<ProjectileComponentSystem, ProjectileComponentData>();
 				RegisterComponent<MeteorComponentSystem, MeteorComponentData>();
 				RegisterComponent<MeteorSpawnerComponentSystem, MeteorSpawnerComponentData>();
+				RegisterComponent<PlayerHealthComponentSystem, PlayerHealthComponentData>();
+				RegisterComponent<SpriteBlinkComponentSystem, SpriteBlinkComponentData>();
+				RegisterComponent<PlayerHUDComponentSystem, PlayerHUDComponentData>();
+				RegisterComponent<PlayerScoreComponentSystem, PlayerScoreComponentData>();
+				RegisterComponent<PlayerScoreHUDComponentSystem, PlayerScoreHUDComponentData>();
 			}
 
 			protected override void RegisterGameObjects()
@@ -92,9 +97,22 @@ namespace BlueSpace
 				base.RegisterGameObjects();
 
 				GameObject player = CreateGameObject( "Player" );
+				player.Transform.Position = new Vector3( 400, 600, 0 );
 				CreateComponentData<PositionConstrainComponentData>( player.Id ).useWindowBounds = true;
 				CreateComponentData<SpriteComponentData>( player.Id ).assetName = "player";
 				CreateComponentData<PlayerControllerComponentData>( player.Id );
+				CreateComponentData<PlayerScoreComponentData>( player.Id );
+				PlayerHealthComponentData playerHealth = CreateComponentData<PlayerHealthComponentData>( player.Id );
+				playerHealth.health = 5;
+				playerHealth.hitDuration = 3;
+				SpriteBlinkComponentData playerBlink = CreateComponentData<SpriteBlinkComponentData>( player.Id );
+				playerBlink.originalColor = Color.White;
+				playerBlink.blinkColor = Color.Transparent;
+				playerBlink.blinkDuration = 0.1f;
+				BoxCollision2DComponentData playerCollider = GetComponentData<BoxCollision2DComponentData>( player.Id );
+				playerCollider.drawDebug = false;
+				playerCollider.Width = 35;
+				playerCollider.Height = 55;
 
 				GameObject gun = CreateGameObject( "Gun" );
 				player.AddChild( gun );
@@ -102,13 +120,34 @@ namespace BlueSpace
 
 				GameObject meteorSpawner = CreateGameObject( "MeteorSpawner" );
 				MeteorSpawnerComponentData meteorSpawnerData = CreateComponentData<MeteorSpawnerComponentData>( meteorSpawner.Id );
-				meteorSpawnerData.timeToSpawn = new Interval(0f, 3f);
-				meteorSpawnerData.xPos = new Interval(0f, 800f);
+				meteorSpawnerData.timeToSpawn = new Interval( 0f, 3f );
+				meteorSpawnerData.xPos = new Interval( 0f, 800f );
 				meteorSpawnerData.yPos = -20f;
 				meteorSpawnerData.meteorsToSpawn = new Interval( 1f, 3f );
 				meteorSpawnerData.speed = new Interval( 100f, 400f );
 				meteorSpawnerData.senoidArc = new Interval( 50f, 300f );
 				meteorSpawnerData.drawDebug = false;
+				meteorSpawnerData.playerId = player.Id;
+
+				GameObject hud = CreateGameObject( "HUD" );
+
+				GameObject healthHud = CreateGameObject( "PlayerHealth" );
+				hud.AddChild( healthHud );
+				healthHud.Transform.Position = new Vector3( 10, 750, 0 );
+				PlayerHUDComponentData healthDisplay = CreateComponentData<PlayerHUDComponentData>( healthHud.Id );
+				healthDisplay.id = player.Id;
+				healthDisplay.assetName = "player";
+				healthDisplay.xOffset = 10.0f;
+				healthDisplay.healthPointScale = new Vector2( 0.3f , 0.3f );
+
+				GameObject scoreHud = CreateGameObject( "PlayerScore" );
+				hud.AddChild( scoreHud );
+				scoreHud.Transform.Position = new Vector3( 600, 740, 0 );
+				PlayerScoreHUDComponentData scoreDisplay = CreateComponentData<PlayerScoreHUDComponentData>( scoreHud.Id );
+				scoreDisplay.id = player.Id;
+				TextComponentData scoreHudText = GetComponentData<TextComponentData>( scoreHud.Id );
+				scoreHudText.assetName = "PixeloidSans";
+				scoreHudText.scale = 2.0f;
 
 				//GameObject stars = CreateGameObject( "Stars" );
 				//stars.Transform.Position = new Vector3( 600, 200, 0 );

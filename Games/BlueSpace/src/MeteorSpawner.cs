@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Blue.Core;
 using Blue.ECS;
@@ -17,6 +16,7 @@ namespace BlueSpace
 		public Interval xPos;
 		public Interval speed;
 		public Interval senoidArc;
+		public String playerId;
 		public bool drawDebug;
 	}
 
@@ -54,6 +54,7 @@ namespace BlueSpace
 			meteorData.destroySound = "meteorDestroy";
 			meteorData.hitSoundVolume = 1f;
 			meteorData.destroySoundVolume = 1f;
+			meteorData.playerId = spawnerData.playerId;
 			BoxCollision2DComponentData meteorCollider = CreateComponentData<BoxCollision2DComponentData>( meteor.Id );
 			meteorCollider.drawDebug = spawnerData.drawDebug;
 			switch ( meteorData.size )
@@ -63,12 +64,16 @@ namespace BlueSpace
 					meteorCollider.Width = 50;
 					meteorCollider.Height = 50;
 					meteorData.health = 20;
+					meteorData.damage = 1;
+					meteorData.score = 100;
 					break;
 				case MeteorSize.Big:
 					meteorSprite.assetName = "meteorBig";
 					meteorCollider.Width = 150;
 					meteorCollider.Height = 150;
 					meteorData.health = 40;
+					meteorData.damage = 1;
+					meteorData.score = 200;
 					break;
 			}
 		}

@@ -93,10 +93,15 @@
     <Compile Include="src\Meteor.cs" />
     <Compile Include="src\MeteorSpawner.cs" />
     <Compile Include="src\PlayerController.cs" />
+    <Compile Include="src\PlayerHealth.cs" />
+    <Compile Include="src\PlayerHealthHUD.cs" />
+    <Compile Include="src\PlayerScore.cs" />
+    <Compile Include="src\PlayerScoreHUD.cs" />
     <Compile Include="src\PlayerWeapon.cs" />
     <Compile Include="src\PositionConstrain.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="src\Projectile.cs" />
+    <Compile Include="src\SpriteBlink.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

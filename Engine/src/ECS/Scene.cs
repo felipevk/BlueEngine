@@ -90,6 +90,26 @@ namespace Blue.ECS
 			}
 		}
 
+		public bool HasComponentSystem<T>()
+			where T : ComponentSystem
+		{
+			return m_componentSystems.ContainsKey( typeof( T ).ToString() );
+		}
+
+		public T GetComponentSystem<T>()
+			where T : ComponentSystem
+		{
+			if ( HasComponentSystem<T>() )
+			{
+				return (T)m_componentSystems[typeof( T ).ToString()];
+			}
+			else
+			{
+				// TODO assert
+				return default( T );
+			}
+		}
+
 		protected void RegisterComponent<T, U>()
 			where T : ComponentSystem, new()
 			where U : ComponentData

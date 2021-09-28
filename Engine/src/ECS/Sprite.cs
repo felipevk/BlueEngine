@@ -26,9 +26,14 @@ namespace Blue.ECS
 				Vector3 spritePos = GetGameObject( gameObjectId ).GetGlobalPosition();
 				spritePos.X -= spriteTexture.Width / 2;
 				spritePos.Y -= spriteTexture.Height / 2;
+				Vector3 spriteScale = GetGameObject( gameObjectId ).GetGlobalScale();
 				if ( spriteData.isVisible )
 				{
-					Game.Instance.GameRenderer.PrepareToDrawSprite( spriteTexture, new Vector2( spritePos.X, spritePos.Y ), spriteData.color );
+					Game.Instance.GameRenderer.PrepareToDrawSprite( 
+						spriteTexture, 
+						new Vector2( spritePos.X, spritePos.Y ), 
+						new Vector2( spriteScale.X, spriteScale.Y ), 
+						spriteData.color );
 				}
 				if ( spriteData.drawDebug )
 				{

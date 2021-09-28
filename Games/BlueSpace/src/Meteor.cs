@@ -22,10 +22,13 @@ namespace BlueSpace
 	public class MeteorComponentData : ComponentData
 	{
 		public int health;
+		public int damage;
+		public int score;
 		public MeteorPath path;
 		public MeteorSize size;
 		public String hitSound;
 		public String destroySound;
+		public String playerId;
 		public float hitSoundVolume = 1f;
 		public float destroySoundVolume = 1f;
 		public float speed;
@@ -83,6 +86,7 @@ namespace BlueSpace
 				{
 					SoundComponentSystem.PlayOnce( meteorData.destroySound, meteorData.destroySoundVolume );
 					DestroyGameObject( gameObjectId );
+					GetComponentSystem<PlayerScoreComponentSystem>().AddScore( meteorData.playerId, meteorData.score );
 				}
 			}
 		}

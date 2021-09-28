@@ -12,10 +12,11 @@ namespace Blue
 		{
 			public Texture2D texture;
 			public Vector2 position;
+			public Vector2 scale;
 			public Color color;
 
-			public SpriteDrawCall( Texture2D textureIn, Vector2 positionIn, Color colorIn ) 
-				=> (texture, position, color) = (textureIn, positionIn, colorIn);
+			public SpriteDrawCall( Texture2D textureIn, Vector2 positionIn, Vector2 scaleIn, Color colorIn ) 
+				=> (texture, position, scale, color) = (textureIn, positionIn, scaleIn, colorIn);
 		}
 
 		struct RectangleDrawCall
@@ -45,10 +46,12 @@ namespace Blue
 			public SpriteFont font;
 			public String text;
 			public Vector2 position;
+			public float scale;
+			public float rotation;
 			public Color color;
 
-			public TextDrawCall( SpriteFont fontIn, String textIn, Vector2 positionIn, Color colorIn )
-				=> (font, text, position, color) = (fontIn, textIn, positionIn, colorIn);
+			public TextDrawCall( SpriteFont fontIn, String textIn, Vector2 positionIn, float scaleIn, float rotationIn, Color colorIn )
+				=> (font, text, position, scale, rotation, color) = (fontIn, textIn, positionIn, scaleIn, rotationIn, colorIn);
 		}
 
 		protected GraphicsDeviceManager _graphics;
@@ -85,7 +88,11 @@ namespace Blue
 			_spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 			foreach ( SpriteDrawCall spriteDrawCall in _spriteDrawCalls )
 			{
-				_spriteBatch.Draw( spriteDrawCall.texture, spriteDrawCall.position, spriteDrawCall.color );
+				Rectangle sourceRect = new Rectangle(0, 0, spriteDrawCall.texture.Width, spriteDrawCall.texture.Height );
+				Rectangle destRect = new Rectangle(
+					(int)spriteDrawCall.position.X, (int)spriteDrawCall.position.Y,
+					(int)( spriteDrawCall.texture.Width * spriteDrawCall.scale.X ), (int)(spriteDrawCall.texture.Height * spriteDrawCall.scale.Y ) );
+				_spriteBatch.Draw( spriteDrawCall.texture, destRect, sourceRect, spriteDrawCall.color );
 			}
 			foreach ( RectangleDrawCall rectangleDrawCall in _rectangleDrawCalls )
 			{
@@ -100,7 +107,16 @@ namespace Blue
 			}
 			foreach ( TextDrawCall textDrawCall in _textDrawCalls )
 			{
-				_spriteBatch.DrawString( textDrawCall.font, textDrawCall.text, textDrawCall.position, textDrawCall.color );
+				_spriteBatch.DrawString( 
+					textDrawCall.font, 
+					textDrawCall.text,
+					textDrawCall.position, 
+					textDrawCall.color, 
+					textDrawCall.rotation,
+					Vector2.Zero, 
+					textDrawCall.scale,
+					SpriteEffects.None,
+					0.0f );
 			}
 			_spriteBatch.End();
 			_spriteDrawCalls.Clear();
@@ -109,9 +125,9 @@ namespace Blue
 			_textDrawCalls.Clear();
 		}
 
-		public void PrepareToDrawSprite( Texture2D texture, Vector2 position, Color color )
+		public void PrepareToDrawSprite( Texture2D texture, Vector2 position, Vector2 scale, Color color )
 		{
-			_spriteDrawCalls.Add( new SpriteDrawCall( texture, position, color ) );
+			_spriteDrawCalls.Add( new SpriteDrawCall( texture, position, scale, color ) );
 		}
 
 		public void PrepareToDrawRectangle( Rectangle rect, Color color, bool isFilled )
@@ -124,9 +140,9 @@ namespace Blue
 			_circleDrawCalls.Add( new CircleDrawCall( center, radius, sides, color, isFilled ) );
 		}
 
-		public void PrepareToDrawText( SpriteFont font, String text, Vector2 position, Color color )
+		public void PrepareToDrawText( SpriteFont font, String text, Vector2 position, float scale, float rotation, Color color )
 		{
-			_textDrawCalls.Add( new TextDrawCall( font, text, position, color ) );
+			_textDrawCalls.Add( new TextDrawCall( font, text, position, scale, rotation, color ) );
 		}
 	}
 }

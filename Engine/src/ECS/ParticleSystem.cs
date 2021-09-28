@@ -51,6 +51,7 @@ namespace Blue.ECS
 	{
 		public float currentLifetime = 0f;
 		public Vector2 position = Vector2.Zero;
+		public Vector2 scale = Vector2.One;
 		public Vector2 direction = Vector2.Zero;
 		public Color color = Color.White;
 		public float speed;
@@ -172,7 +173,7 @@ namespace Blue.ECS
 			{
 				if ( particle != null && particle.IsAlive() )
 				{
-					Game.Instance.GameRenderer.PrepareToDrawSprite( particleTexture, particle.position, particle.color );
+					Game.Instance.GameRenderer.PrepareToDrawSprite( particleTexture, particle.position, particle.scale, particle.color );
 				}
 			}
 		}

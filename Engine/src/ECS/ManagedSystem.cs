@@ -12,6 +12,18 @@ namespace Blue.ECS
 
 		public virtual void Render() { }
 
+		public bool HasComponentSystem<T>()
+			where T : ComponentSystem
+		{
+			return Game.Instance.CurrentScene.HasComponentSystem<T>();
+		}
+
+		public T GetComponentSystem<T>()
+			where T : ComponentSystem
+		{
+			return Game.Instance.CurrentScene.GetComponentSystem<T>();
+		}
+
 		protected GameObject CreateGameObject( String name )
 		{
 			return Game.Instance.CurrentScene.CreateGameObject( name );
