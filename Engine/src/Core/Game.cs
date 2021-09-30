@@ -28,13 +28,6 @@ namespace Blue
 
 		private static Dictionary<String, ManagedSystem> m_managedSystems = new Dictionary<string, ManagedSystem>();
 
-		public static void Run<T>()
-			where T : Game, new()
-		{
-			var factory = new MonoGame.Framework.GameFrameworkViewSource<T>();
-			Windows.ApplicationModel.Core.CoreApplication.Run( factory );
-		}
-
 		public Game()
 		{
 			Instance = this;

@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.Portable" Version="3.7.1.189" />
+    <PackageReference Include="MonoGame.Primitives2D" Version="1.1.1" />
+  </ItemGroup>
+
+</Project>
