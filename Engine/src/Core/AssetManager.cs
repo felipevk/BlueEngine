@@ -51,7 +51,7 @@ namespace Blue.Core
 		public void RegisterAssetType<T>()
 			where T : IAsset
 		{
-			Assets.Add( typeof( T ).ToString(), new Dictionary<string, IAsset>() );
+			Assets.TryAdd( typeof( T ).ToString(), new Dictionary<string, IAsset>() );
 		}
 
 		public void AddAsset<T>( String assetName )
