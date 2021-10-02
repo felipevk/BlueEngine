@@ -11,6 +11,7 @@ namespace Blue.ECS
 		public String assetName = "";
 		public Color color = Color.White;
 		public Color drawDebugColor = Color.Red;
+		public int zOrder = 0;
 		public bool isVisible = true;
 		public bool drawDebug = false;
 	}
@@ -33,6 +34,7 @@ namespace Blue.ECS
 						spriteTexture, 
 						new Vector2( spritePos.X, spritePos.Y ), 
 						new Vector2( spriteScale.X, spriteScale.Y ), 
+						spriteData.zOrder,
 						spriteData.color );
 				}
 				if ( spriteData.drawDebug )

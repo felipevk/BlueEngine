@@ -1,8 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using MonoGame;
 
 namespace Blue
 {
@@ -13,10 +16,11 @@ namespace Blue
 			public Texture2D texture;
 			public Vector2 position;
 			public Vector2 scale;
+			public int zOrder;
 			public Color color;
 
-			public SpriteDrawCall( Texture2D textureIn, Vector2 positionIn, Vector2 scaleIn, Color colorIn ) 
-				=> (texture, position, scale, color) = (textureIn, positionIn, scaleIn, colorIn);
+			public SpriteDrawCall( Texture2D textureIn, Vector2 positionIn, Vector2 scaleIn, int zOrderIn, Color colorIn ) 
+				=> (texture, position, scale, zOrder, color) = (textureIn, positionIn, scaleIn, zOrderIn, colorIn);
 		}
 
 		struct RectangleDrawCall
@@ -86,7 +90,9 @@ namespace Blue
 			Game.Instance.CurrentScene.Render();
 
 			_spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-			foreach ( SpriteDrawCall spriteDrawCall in _spriteDrawCalls )
+
+			List<SpriteDrawCall> sortedSpriteDrawCalls = _spriteDrawCalls.OrderBy( s => s.zOrder ).ToList();
+			foreach ( SpriteDrawCall spriteDrawCall in sortedSpriteDrawCalls )
 			{
 				Rectangle sourceRect = new Rectangle(0, 0, spriteDrawCall.texture.Width, spriteDrawCall.texture.Height );
 				Rectangle destRect = new Rectangle(
@@ -125,9 +131,9 @@ namespace Blue
 			_textDrawCalls.Clear();
 		}
 
-		public void PrepareToDrawSprite( Texture2D texture, Vector2 position, Vector2 scale, Color color )
+		public void PrepareToDrawSprite( Texture2D texture, Vector2 position, Vector2 scale, int zOrder, Color color )
 		{
-			_spriteDrawCalls.Add( new SpriteDrawCall( texture, position, scale, color ) );
+			_spriteDrawCalls.Add( new SpriteDrawCall( texture, position, scale, zOrder, color ) );
 		}
 
 		public void PrepareToDrawRectangle( Rectangle rect, Color color, bool isFilled )

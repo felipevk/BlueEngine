@@ -55,6 +55,7 @@ namespace Blue.ECS
 		public Vector2 direction = Vector2.Zero;
 		public Color color = Color.White;
 		public float speed;
+		public int zOrder = 0;
 
 		public void Init( ParticleComponentData particleData, Vector2 origin )
 		{
@@ -85,6 +86,7 @@ namespace Blue.ECS
 			particleColor.G += (byte)particleData.colorBVariation.Random();
 			particleColor.B += (byte)particleData.colorAVariation.Random();
 			color = particleColor;
+			zOrder = particleData.zOrder;
 		}
 
 		public void Update( ParticleComponentData particleData )
@@ -125,6 +127,8 @@ namespace Blue.ECS
 		public Interval timeToEmit = new Interval( 0, 1000 );
 
 		public Interval speed = new Interval( 0, 1 );
+
+		public int zOrder = 0;
 	}
 
 	public class GameObjectParticles
@@ -173,7 +177,7 @@ namespace Blue.ECS
 			{
 				if ( particle != null && particle.IsAlive() )
 				{
-					Game.Instance.GameRenderer.PrepareToDrawSprite( particleTexture, particle.position, particle.scale, particle.color );
+					Game.Instance.GameRenderer.PrepareToDrawSprite( particleTexture, particle.position, particle.scale, particle.zOrder, particle.color );
 				}
 			}
 		}
