@@ -13,6 +13,7 @@ namespace Blue.ECS
 		public float pitch = 0.0f;
 		public float pan = 0.0f;
 		public bool loop = false;
+		public bool isPlaying = false;
 	}
 
 	public class SoundComponentSystem : ComponentSystem
@@ -70,22 +71,29 @@ namespace Blue.ECS
 
 		public static void Play( String gameObjectId, SoundComponentData data )
 		{
-			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, data );
+			SoundComponentData soundData = data as SoundComponentData;
+			soundData.isPlaying = true;
+			// TODO set isPlaying to false when sound ends
 
+			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, soundData );
 			soundEffectInstance.Play();
 		}
 
 		public static void Pause( String gameObjectId, SoundComponentData data )
 		{
-			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, data );
+			SoundComponentData soundData = data as SoundComponentData;
+			soundData.isPlaying = false;
 
+			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, soundData );
 			soundEffectInstance.Pause();
 		}
 
 		public static void Stop( String gameObjectId, SoundComponentData data )
 		{
-			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, data );
+			SoundComponentData soundData = data as SoundComponentData;
+			soundData.isPlaying = false;
 
+			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, soundData );
 			soundEffectInstance.Stop();
 		}
 	}
