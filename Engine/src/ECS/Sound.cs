@@ -115,5 +115,9 @@ namespace Blue.ECS
 			soundData.isPlaying = false;
 			MediaPlayer.Stop();
 		}
+		public static void SetSongVolume( float volume )
+		{
+			MediaPlayer.Volume = volume;
+		}
 	}
 }
