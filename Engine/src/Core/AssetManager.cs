@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 
@@ -29,6 +30,17 @@ namespace Blue.Core
 		public void LoadContent( string assetName )
 		{
 			SoundEffect = Game.Instance.Content.Load<SoundEffect>( assetName );
+		}
+	}
+
+	public class SongAsset : IAsset
+	{
+		public Song Song
+		{ get; set; }
+
+		public void LoadContent( string assetName )
+		{
+			Song = Game.Instance.Content.Load<Song>( assetName );
 		}
 	}
 

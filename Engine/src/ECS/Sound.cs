@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 
@@ -69,9 +70,8 @@ namespace Blue.ECS
 			soundEffectInstance.Play();
 		}
 
-		public static void Play( String gameObjectId, SoundComponentData data )
+		public static void PlaySoundEffect( String gameObjectId, SoundComponentData soundData )
 		{
-			SoundComponentData soundData = data as SoundComponentData;
 			soundData.isPlaying = true;
 			// TODO set isPlaying to false when sound ends
 
@@ -79,22 +79,41 @@ namespace Blue.ECS
 			soundEffectInstance.Play();
 		}
 
-		public static void Pause( String gameObjectId, SoundComponentData data )
+		public static void PauseSoundEffect( String gameObjectId, SoundComponentData soundData )
 		{
-			SoundComponentData soundData = data as SoundComponentData;
 			soundData.isPlaying = false;
 
 			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, soundData );
 			soundEffectInstance.Pause();
 		}
 
-		public static void Stop( String gameObjectId, SoundComponentData data )
+		public static void StopSoundEffect( String gameObjectId, SoundComponentData soundData )
 		{
-			SoundComponentData soundData = data as SoundComponentData;
 			soundData.isPlaying = false;
 
 			SoundEffectInstance soundEffectInstance = CreateOrAddSoundEffectInstance( gameObjectId, soundData );
 			soundEffectInstance.Stop();
+		}
+
+		public static void PlaySong( SoundComponentData soundData )
+		{
+			soundData.isPlaying = true;
+			// TODO set isPlaying to false when sound ends
+
+			SongAsset songAsset = Game.Instance.AssetManager.GetAsset<SongAsset>( soundData.assetName );
+			MediaPlayer.Play( songAsset.Song );
+		}
+
+		public static void PauseSong( SoundComponentData soundData )
+		{
+			soundData.isPlaying = false;
+			MediaPlayer.Pause();
+		}
+
+		public static void StopSong( SoundComponentData soundData )
+		{
+			soundData.isPlaying = false;
+			MediaPlayer.Stop();
 		}
 	}
 }

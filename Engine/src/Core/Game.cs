@@ -55,6 +55,7 @@ namespace Blue
 		{
 			AssetManager.RegisterAssetType<SpriteAsset>();
 			AssetManager.RegisterAssetType<SoundEffectAsset>();
+			AssetManager.RegisterAssetType<SongAsset>();
 			AssetManager.RegisterAssetType<FontAsset>();
 
 			GameRenderer.LoadContent();
