@@ -101,6 +101,8 @@ namespace Blue.ECS
 			// TODO set isPlaying to false when sound ends
 
 			SongAsset songAsset = Game.Instance.AssetManager.GetAsset<SongAsset>( soundData.assetName );
+			MediaPlayer.Volume = soundData.volume;
+			MediaPlayer.IsRepeating = soundData.loop;
 			MediaPlayer.Play( songAsset.Song );
 		}
 
